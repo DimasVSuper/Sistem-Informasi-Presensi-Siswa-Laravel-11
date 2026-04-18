@@ -140,7 +140,7 @@
             </p>
         </div>
         <div class="footer">
-            &copy; {{ date('Y') }} Sistem Presensi Digital &mdash; Dibuat dengan ❤️
+            &copy; {{ date('Y') }} Sistem Presensi Digital &mdash; Dibuat oleh Kelompok 4
         </div>
     </div>
 </body>
