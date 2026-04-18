@@ -7,16 +7,20 @@ use Illuminate\Support\Str;
 
 class SiswaService
 {
+    public function __construct(protected Siswa $siswa = new Siswa())
+    {
+    }
+
     public function getPaginated(int $perPage = 10)
     {
-        return Siswa::with('orangTua')->latest()->paginate($perPage);
+        return $this->siswa->newQuery()->with('orangTua')->latest()->paginate($perPage);
     }
 
     public function create(array $data)
     {
         $data['qr_code'] = $this->generateUniqueQrCode();
 
-        return Siswa::create($data);
+        return $this->siswa->newQuery()->create($data);
     }
 
     public function update(Siswa $siswa, array $data)
@@ -35,7 +39,7 @@ class SiswaService
     {
         $qrCode = 'QR-'.Str::upper(Str::random(8));
 
-        while (Siswa::where('qr_code', $qrCode)->exists()) {
+        while ($this->siswa->newQuery()->where('qr_code', $qrCode)->exists()) {
             $qrCode = 'QR-'.Str::upper(Str::random(8));
         }
 

@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSiswaRequest;
-use App\Http\Requests\UpdateSiswaRequest;
+use App\Http\Requests\SiswaRequest;
 use App\Models\OrangTua;
 use App\Models\Siswa;
 use App\Services\SiswaService;
-use App\Http\Requests\SiswaRequest;
 
 class SiswaController extends Controller
 {

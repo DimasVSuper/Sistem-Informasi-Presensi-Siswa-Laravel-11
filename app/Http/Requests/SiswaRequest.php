@@ -26,7 +26,7 @@ class SiswaRequest extends FormRequest
 
         return [
             'nama' => 'required|string|max:255',
-            'nis' => 'required|string|unique:siswa,nis,' . $id,
+            'nis' => 'required|string|unique:siswa,nis,'.$id,
             'orang_tua_id' => 'required|exists:orang_tua,id',
         ];
     }
