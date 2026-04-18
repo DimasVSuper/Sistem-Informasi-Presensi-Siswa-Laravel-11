@@ -6,6 +6,7 @@ use App\Models\Presensi;
 use App\Models\Siswa;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -15,6 +16,7 @@ class AttendanceNotification extends Mailable
     use Queueable, SerializesModels;
 
     public Siswa $siswa;
+
     public Presensi $presensi;
 
     /**
@@ -32,7 +34,7 @@ class AttendanceNotification extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Notifikasi Presensi - ' . $this->siswa->nama,
+            subject: 'Notifikasi Presensi - '.$this->siswa->nama,
         );
     }
 
@@ -49,7 +51,7 @@ class AttendanceNotification extends Mailable
     /**
      * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @return array<int, Attachment>
      */
     public function attachments(): array
     {
