@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreOrangTuaRequest;
-use App\Http\Requests\UpdateOrangTuaRequest;
+use App\Http\Requests\OrangTuaRequest;
 use App\Models\OrangTua;
 use App\Services\OrangTuaService;
-use App\Http\Requests\OrangTuaRequest;
 
 class OrangTuaController extends Controller
 {

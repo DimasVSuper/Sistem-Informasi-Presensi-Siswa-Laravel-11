@@ -2,14 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OrangTua extends Model
 {
+    use HasFactory;
+
     protected $table = 'orang_tua';
+
     protected $fillable = ['nama', 'email'];
 
-    public function siswa()
+    public function siswa(): HasMany
     {
         return $this->hasMany(Siswa::class, 'orang_tua_id');
     }

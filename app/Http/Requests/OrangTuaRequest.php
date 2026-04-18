@@ -26,7 +26,7 @@ class OrangTuaRequest extends FormRequest
 
         return [
             'nama' => 'required|string|max:255',
-            'email' => 'required|email|unique:orang_tua,email,' . $id,
+            'email' => 'required|email|unique:orang_tua,email,'.$id,
         ];
     }
 }

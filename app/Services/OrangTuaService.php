@@ -6,14 +6,18 @@ use App\Models\OrangTua;
 
 class OrangTuaService
 {
+    public function __construct(protected OrangTua $orangTua = new OrangTua())
+    {
+    }
+
     public function getPaginated(int $perPage = 10)
     {
-        return OrangTua::latest()->paginate($perPage);
+        return $this->orangTua->newQuery()->latest()->paginate($perPage);
     }
 
     public function create(array $data)
     {
-        return OrangTua::create($data);
+        return $this->orangTua->newQuery()->create($data);
     }
 
     public function update(OrangTua $orangTua, array $data)
