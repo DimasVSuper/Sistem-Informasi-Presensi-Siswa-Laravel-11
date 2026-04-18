@@ -18,9 +18,10 @@ class PresensiController extends Controller
     {
         $result = $this->presensiService->processScan($request->qr_code);
 
-        $status = $result['status'];
-        unset($result['status']); // Jangan kembalikan HTTP Code di dalam payload body
+        if (! $result['success']) {
+            return $this->errorResponse($result['message'], $result['status'], $result['data'] ?? null);
+        }
 
-        return response()->json($result, $status);
+        return $this->successResponse($result['message'], $result['data'], $result['status']);
     }
 }
