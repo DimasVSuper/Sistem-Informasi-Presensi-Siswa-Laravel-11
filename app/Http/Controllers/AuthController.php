@@ -8,24 +8,17 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-
     public function login()
     {
-        if (Auth::check()) {
-            return redirect()->route('dashboard.index');
-        }
-
         return view('auth.login');
     }
 
     public function authenticate(AuthRequest $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($request->validated())) {
             $request->session()->regenerate();
 
-            return redirect()->intended('dashboard');
+            return redirect()->intended(route('dashboard.index'));
         }
 
         return back()->withErrors([
