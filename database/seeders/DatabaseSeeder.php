@@ -8,11 +8,14 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
+        User::factory()->create([
+            'name' => 'Administrator',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('password'),
+        ]);
+
         $this->call([
             SiswaSeeder::class,
         ]);
