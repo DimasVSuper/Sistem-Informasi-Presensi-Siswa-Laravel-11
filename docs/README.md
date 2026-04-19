@@ -7,6 +7,14 @@
     *Detail tentang UI design, Vue.js integration, dan fitur offline.*
 4.  [**Panduan API**](../README.md#struktur-folder-proyek)
     *Ringkasan mengenai endpoint dan respons sistem.*
+5.  [**Perancangan Sistem Informasi**](Jurnal/Perancangan_Sistem_Informasi/Perancangan_SI.md)
+    *UML, ERD, DFD, rancangan database, dan arsitektur sistem.*
+6.  [**Permodelan Sistem Informasi**](Jurnal/Permodelan_Sistem_Informasi/Permodelan_Sistem_Informasi.md)
+    *BPMN, flowchart, dan simulasi alur presensi serta notifikasi.*
+7.  [**Manajemen Proyek SI**](Jurnal/Manajemen_Proyek_Sistem_Informasi/Manajemen_Proyek_Sistem_Informasi.md)
+    *Project charter, WBS, Gantt chart, risk management, dan resource allocation.*
+8.  [**Software Quality Assurance**](Jurnal/Software_Quality_Assurance/Software_Quality_Assurance.md)
+    *Test plan, test case, bug report, hasil uji performa dan keamanan.*
 
 ## Petunjuk Pengembang
 Untuk menjaga kualitas kode tetap tinggi, harap jalankan formatter sebelum melakukan commit:
