@@ -15,7 +15,6 @@ class SiswaSeeder extends Seeder
         $orangTua1 = OrangTua::create(['nama' => 'Bapak Ahmad Fauzi', 'email' => 'orangtua1@example.com']);
         $orangTua2 = OrangTua::create(['nama' => 'Ibu Siti Rahayu', 'email' => 'orangtua2@example.com']);
         $orangTua3 = OrangTua::create(['nama' => 'Bapak Dedi Susanto', 'email' => 'orangtua3@example.com']);
-        $orangTua4 = OrangTua::create(['nama' => 'Bapak Dimas', 'email' => 'dimasbayunugroho2006@gmail.com']);
 
         // Data siswa — qr_code unik otomatis menggunakan UUID
         Siswa::create([
@@ -37,13 +36,6 @@ class SiswaSeeder extends Seeder
             'nis' => '2024003',
             'qr_code' => 'QR-'.Str::upper(Str::random(8)),
             'orang_tua_id' => $orangTua3->id,
-        ]);
-
-        Siswa::create([
-            'nama' => 'Dimas Bayu Nugroho',
-            'nis' => '2024004',
-            'qr_code' => 'QR-'.Str::upper(Str::random(8)),
-            'orang_tua_id' => $orangTua4->id,
         ]);
     }
 }
