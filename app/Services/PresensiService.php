@@ -2,12 +2,10 @@
 
 namespace App\Services;
 
-use App\Mail\AttendanceNotification;
 use App\Models\Presensi;
 use App\Models\Siswa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 
 class PresensiService
 {
@@ -23,57 +21,76 @@ class PresensiService
     public function processScan(string $qrCode): array
     {
         return DB::transaction(function () use ($qrCode) {
-            $siswa = $this->siswa->newQuery()->with('orangTua')->where('qr_code', $qrCode)->first();
+            $siswa = $this->findSiswaByQrCode($qrCode);
 
             if (! $siswa) {
-                return [
-                    'success' => false,
-                    'status' => 404,
-                    'message' => 'Siswa tidak ditemukan. QR Code tidak valid.',
-                ];
+                return $this->notFoundResponse();
             }
 
-            $today = Carbon::today()->toDateString();
-
-            $sudahPresensi = $this->presensi->newQuery()
-                ->where('siswa_id', $siswa->id)
-                ->where('tanggal', $today)
-                ->exists();
-
-            if ($sudahPresensi) {
-                return [
-                    'success' => false,
-                    'status' => 409,
-                    'message' => 'Siswa '.$siswa->nama.' sudah melakukan presensi hari ini.',
-                    'data' => ['nama' => $siswa->nama, 'nis' => $siswa->nis],
-                ];
+            if ($this->hasAlreadyPresensiToday($siswa)) {
+                return $this->alreadyPresensiResponse($siswa);
             }
 
-            $presensi = $this->presensi->newQuery()->create([
-                'siswa_id' => $siswa->id,
-                'tanggal' => $today,
-                'waktu' => Carbon::now()->format('H:i:s'),
-                'status' => 'Hadir',
-            ]);
+            $presensi = $this->createPresensiRecord($siswa);
 
-            if ($siswa->orangTua && $siswa->orangTua->email) {
-                Mail::to($siswa->orangTua->email)->send(
-                    new AttendanceNotification($siswa, $presensi)
-                );
-            }
-
-            return [
-                'success' => true,
-                'status' => 201,
-                'message' => 'Presensi berhasil dicatat. Notifikasi telah dikirim ke orang tua.',
-                'data' => [
-                    'nama' => $siswa->nama,
-                    'nis' => $siswa->nis,
-                    'tanggal' => $presensi->tanggal,
-                    'waktu' => $presensi->waktu,
-                    'status' => $presensi->status,
-                ],
-            ];
+            return $this->successResponse($siswa, $presensi);
         });
+    }
+
+    protected function findSiswaByQrCode(string $qrCode): ?Siswa
+    {
+        return $this->siswa->newQuery()->withQrCode($qrCode)->first();
+    }
+
+    protected function hasAlreadyPresensiToday(Siswa $siswa): bool
+    {
+        return $this->presensi->newQuery()
+            ->forSiswaOnDate($siswa, Carbon::today()->toDateString())
+            ->exists();
+    }
+
+    protected function createPresensiRecord(Siswa $siswa): Presensi
+    {
+        return $this->presensi->newQuery()->create([
+            'siswa_id' => $siswa->id,
+            'tanggal' => Carbon::today()->toDateString(),
+            'waktu' => Carbon::now()->format('H:i:s'),
+            'status' => 'Hadir',
+        ]);
+    }
+
+    protected function notFoundResponse(): array
+    {
+        return [
+            'success' => false,
+            'status' => 404,
+            'message' => 'Siswa tidak ditemukan. QR Code tidak valid.',
+        ];
+    }
+
+    protected function alreadyPresensiResponse(Siswa $siswa): array
+    {
+        return [
+            'success' => false,
+            'status' => 409,
+            'message' => 'Siswa '.$siswa->nama.' sudah melakukan presensi hari ini.',
+            'data' => ['nama' => $siswa->nama, 'nis' => $siswa->nis],
+        ];
+    }
+
+    protected function successResponse(Siswa $siswa, Presensi $presensi): array
+    {
+        return [
+            'success' => true,
+            'status' => 201,
+            'message' => 'Presensi berhasil dicatat. Notifikasi telah dikirim ke orang tua.',
+            'data' => [
+                'nama' => $siswa->nama,
+                'nis' => $siswa->nis,
+                'tanggal' => $presensi->tanggal,
+                'waktu' => $presensi->waktu,
+                'status' => $presensi->status,
+            ],
+        ];
     }
 }
