@@ -15,4 +15,9 @@ class Presensi extends Model
     {
         return $this->belongsTo(Siswa::class, 'siswa_id');
     }
+
+    public function scopeForSiswaOnDate($query, Siswa $siswa, string $date)
+    {
+        return $query->where('siswa_id', $siswa->id)->where('tanggal', $date);
+    }
 }

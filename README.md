@@ -22,7 +22,8 @@ Kami menggunakan arsitektur **Clean Code** dengan pemisahan tanggung jawab yang 
 
 - `app/Http/Controllers`: Menangani navigasi dan aliran data primer (KISS Pattern).
 - `app/Http/Requests`: Menampung seluruh aturan validasi form secara terpusat.
-- `app/Services`: **Jantung Aplikasi**. Seluruh logika bisnis (seperti proses scan, kirim email, dan generate QR unik) ada di sini.
+- `app/Services`: **Jantung Aplikasi**. Seluruh logika bisnis (seperti proses scan dan pencatatan presensi) ada di sini.
+- `app/Observers`: Menangani efek samping model seperti generate QR otomatis dan notifikasi email setelah presensi tercatat.
 - `app/Traits`: Logika yang dapat digunakan berulang (seperti standarisasi JSON Response API).
 - `resources/views`: Menggunakan *Unified Layout API* di `app.blade.php` untuk konsistensi desain.
 - `public/`: Berisi aset PWA seperti `manifest.json` dan `sw.js` (Service Worker).

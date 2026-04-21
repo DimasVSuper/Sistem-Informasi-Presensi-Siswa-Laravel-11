@@ -34,9 +34,15 @@ Digunakan untuk menstandarisasi output API di `app/Traits/ApiResponser.php`.
 3. **Logika Bisnis (PresensiService)**:
    - Memeriksa keabsahan kode QR di database.
    - Memeriksa apakah siswa sudah absen hari ini (mencegah double scan).
-   - Menggunakan `DB::transaction` untuk menjamin pencatatan absen dan pengiriman email berjalan beriringan (Atomicity).
-4. **Notifikasi (Mail)**:
-   - Mengirimkan `AttendanceNotification` ke email orang tua yang terdaftar.
+   - Mencatat data presensi dalam tabel `presensi`.
+4. **Notifikasi (Observer)**:
+   - `PresensiObserver` akan merespon event `created` pada model `Presensi`.
+   - Setelah presensi tercatat, observer mengirimkan `AttendanceNotification` ke email orang tua yang terdaftar.
+
+## 🧩 Observer Pattern
+Selain Service Layer, aplikasi ini juga menggunakan model observers untuk memisahkan efek samping:
+- `SiswaObserver` mengisi `qr_code` secara otomatis saat record `Siswa` dibuat.
+- `PresensiObserver` mengirim email notifikasi setelah record `Presensi` berhasil tersimpan.
 
 ## 📱 Progressive Web App (PWA)
 

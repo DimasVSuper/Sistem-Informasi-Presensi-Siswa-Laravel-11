@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Siswa;
-use Illuminate\Support\Str;
 
 class SiswaService
 {
@@ -18,8 +17,6 @@ class SiswaService
 
     public function create(array $data)
     {
-        $data['qr_code'] = $this->generateUniqueQrCode();
-
         return $this->siswa->newQuery()->create($data);
     }
 
@@ -35,14 +32,4 @@ class SiswaService
         return $siswa->delete();
     }
 
-    private function generateUniqueQrCode(): string
-    {
-        $qrCode = 'QR-'.Str::upper(Str::random(8));
-
-        while ($this->siswa->newQuery()->where('qr_code', $qrCode)->exists()) {
-            $qrCode = 'QR-'.Str::upper(Str::random(8));
-        }
-
-        return $qrCode;
-    }
 }

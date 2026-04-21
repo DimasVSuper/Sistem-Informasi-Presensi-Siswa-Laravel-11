@@ -2,13 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Mail\AttendanceNotification;
 use App\Models\Presensi;
 use App\Models\Siswa;
 use App\Services\PresensiService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use Tests\TestCase;
@@ -24,8 +22,7 @@ class PresensiServiceTest extends TestCase
         $siswaBuilder = Mockery::mock();
         $siswaModel = Mockery::mock(Siswa::class);
         $siswaModel->shouldReceive('newQuery')->once()->andReturn($siswaBuilder);
-        $siswaBuilder->shouldReceive('with')->once()->with('orangTua')->andReturn($siswaBuilder);
-        $siswaBuilder->shouldReceive('where')->once()->with('qr_code', 'QR-NOT-EXISTS')->andReturn($siswaBuilder);
+        $siswaBuilder->shouldReceive('withQrCode')->once()->with('QR-NOT-EXISTS')->andReturn($siswaBuilder);
         $siswaBuilder->shouldReceive('first')->once()->andReturnNull();
 
         $presensiModel = Mockery::mock(Presensi::class);
@@ -57,15 +54,13 @@ class PresensiServiceTest extends TestCase
 
         $siswaModel = Mockery::mock(Siswa::class);
         $siswaModel->shouldReceive('newQuery')->once()->andReturn($siswaBuilder);
-        $siswaBuilder->shouldReceive('with')->once()->with('orangTua')->andReturn($siswaBuilder);
-        $siswaBuilder->shouldReceive('where')->once()->with('qr_code', 'QR-VALID-123')->andReturn($siswaBuilder);
+        $siswaBuilder->shouldReceive('withQrCode')->once()->with('QR-VALID-123')->andReturn($siswaBuilder);
         $siswaBuilder->shouldReceive('first')->once()->andReturn($siswa);
 
         $presensiBuilder = Mockery::mock();
         $presensiModel = Mockery::mock(Presensi::class);
         $presensiModel->shouldReceive('newQuery')->twice()->andReturn($presensiBuilder);
-        $presensiBuilder->shouldReceive('where')->once()->with('siswa_id', 1)->andReturn($presensiBuilder);
-        $presensiBuilder->shouldReceive('where')->once()->with('tanggal', Carbon::today()->toDateString())->andReturn($presensiBuilder);
+        $presensiBuilder->shouldReceive('forSiswaOnDate')->once()->with($siswa, Carbon::today()->toDateString())->andReturn($presensiBuilder);
         $presensiBuilder->shouldReceive('exists')->once()->andReturn(false);
 
         $createdPresensi = new class extends Presensi {
@@ -84,9 +79,6 @@ class PresensiServiceTest extends TestCase
                 && $payload['tanggal'] === Carbon::today()->toDateString();
         }))->andReturn($createdPresensi);
 
-        Mail::shouldReceive('to')->once()->with('ortu@example.com')->andReturnSelf();
-        Mail::shouldReceive('send')->once()->with(Mockery::type(AttendanceNotification::class));
-
         $service = new PresensiService($siswaModel, $presensiModel);
 
         $result = $service->processScan('QR-VALID-123');
@@ -104,24 +96,27 @@ class PresensiServiceTest extends TestCase
         DB::shouldReceive('transaction')->once()->andReturnUsing(fn ($closure) => $closure());
 
         $siswaBuilder = Mockery::mock();
-        $siswa = (object) [
-            'id' => 2,
-            'nama' => 'Budi',
-            'nis' => '98765',
-            'orangTua' => (object) ['email' => 'ortu@example.com'],
-        ];
+        $siswa = new class extends Siswa {
+            public $id;
+            public $nama;
+            public $nis;
+            public $orangTua;
+        };
+
+        $siswa->id = 2;
+        $siswa->nama = 'Budi';
+        $siswa->nis = '98765';
+        $siswa->orangTua = (object) ['email' => 'ortu@example.com'];
 
         $siswaModel = Mockery::mock(Siswa::class);
         $siswaModel->shouldReceive('newQuery')->once()->andReturn($siswaBuilder);
-        $siswaBuilder->shouldReceive('with')->once()->with('orangTua')->andReturn($siswaBuilder);
-        $siswaBuilder->shouldReceive('where')->once()->with('qr_code', 'QR-DOUBLE-SCAN')->andReturn($siswaBuilder);
+        $siswaBuilder->shouldReceive('withQrCode')->once()->with('QR-DOUBLE-SCAN')->andReturn($siswaBuilder);
         $siswaBuilder->shouldReceive('first')->once()->andReturn($siswa);
 
         $presensiBuilder = Mockery::mock();
         $presensiModel = Mockery::mock(Presensi::class);
         $presensiModel->shouldReceive('newQuery')->once()->andReturn($presensiBuilder);
-        $presensiBuilder->shouldReceive('where')->once()->with('siswa_id', 2)->andReturn($presensiBuilder);
-        $presensiBuilder->shouldReceive('where')->once()->with('tanggal', Carbon::today()->toDateString())->andReturn($presensiBuilder);
+        $presensiBuilder->shouldReceive('forSiswaOnDate')->once()->with($siswa, Carbon::today()->toDateString())->andReturn($presensiBuilder);
         $presensiBuilder->shouldReceive('exists')->once()->andReturn(true);
 
         $service = new PresensiService($siswaModel, $presensiModel);
