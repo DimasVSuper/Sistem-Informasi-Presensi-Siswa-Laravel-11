@@ -7,6 +7,8 @@
     *Detail tentang UI design, Vue.js integration, dan fitur offline.*
 4.  [**Panduan API**](../README.md#struktur-folder-proyek)
     *Ringkasan mengenai endpoint dan respons sistem.*
+5.  [**Dokumen Jurnal**](Jurnal/Manajemen_Proyek_Sistem_Informasi/Manajemen_Proyek_Sistem_Informasi.md)
+    *Dokumentasi tugas akhir dan laporan manajemen proyek.*
 5.  [**Perancangan Sistem Informasi**](Jurnal/Perancangan_Sistem_Informasi/Perancangan_SI.md)
     *UML, ERD, DFD, rancangan database, dan arsitektur sistem.*
 6.  [**Permodelan Sistem Informasi**](Jurnal/Permodelan_Sistem_Informasi/Permodelan_Sistem_Informasi.md)
