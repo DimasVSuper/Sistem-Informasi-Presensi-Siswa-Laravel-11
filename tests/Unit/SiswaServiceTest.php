@@ -45,9 +45,7 @@ class SiswaServiceTest extends TestCase
     {
         $builder = Mockery::mock();
         $siswaModel = Mockery::mock(Siswa::class);
-        $siswaModel->shouldReceive('newQuery')->twice()->andReturn($builder);
-        $builder->shouldReceive('where')->once()->with('qr_code', Mockery::type('string'))->andReturn($builder);
-        $builder->shouldReceive('exists')->once()->andReturn(false);
+        $siswaModel->shouldReceive('newQuery')->once()->andReturn($builder);
 
         $data = [
             'nama' => 'Andi Wijaya',
@@ -60,19 +58,13 @@ class SiswaServiceTest extends TestCase
             'qr_code' => 'QR-ABCDEFGH',
         ]);
 
-        $builder->shouldReceive('create')->once()->with(Mockery::on(function (array $payload) {
-            return isset($payload['qr_code'])
-                && str_starts_with($payload['qr_code'], 'QR-')
-                && strlen($payload['qr_code']) === 11;
-        }))->andReturn($createdSiswa);
+        $builder->shouldReceive('create')->once()->with($data)->andReturn($createdSiswa);
 
         $service = new SiswaService($siswaModel);
 
         $result = $service->create($data);
 
         $this->assertSame($createdSiswa, $result);
-        $this->assertStringStartsWith('QR-', $result->qr_code);
-        $this->assertSame(11, strlen($result->qr_code));
     }
 
     public function test_memperbarui_data_siswa(): void
