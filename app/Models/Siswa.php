@@ -24,4 +24,9 @@ class Siswa extends Model
     {
         return $this->hasMany(Presensi::class, 'siswa_id');
     }
+
+    public function scopeWithQrCode($query, string $qrCode)
+    {
+        return $query->with('orangTua')->where('qr_code', $qrCode);
+    }
 }
