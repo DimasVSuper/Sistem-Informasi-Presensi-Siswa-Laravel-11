@@ -17,7 +17,7 @@ sequenceDiagram
     F->>F: Menangkap QR Code
     F->>C: POST /api/presensi {qr_code}
     
-    rect rgb(240, 240, 240)
+    rect rgba(255, 0, 0, 1)
         Note over C,SRV: Logic processing
         C->>SRV: processScan(qr_code)
         SRV->>DB: findSiswaByQrCode(qr_code)
@@ -30,7 +30,7 @@ sequenceDiagram
 
     SRV-->>C: array [success: true, data: ...]
     
-    rect rgb(230, 245, 230)
+    rect rgba(255, 0, 0, 1)
         Note over DB,M: Async Trigger (Observer)
         DB-->>OBS: Created Event
         OBS->>DB: Get OrangTua Email
