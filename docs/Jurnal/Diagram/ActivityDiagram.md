@@ -6,9 +6,9 @@
 stateDiagram-v2
     [*] --> BukaHalamanScan: Siswa membuka halaman scan
     BukaHalamanScan --> ScanQRCode: Sistem memulai kamera
-    ScanQRCode --> KirimAPI: Scan berhasil (QR Code didapat)
+    ScanQRCode --> PresensiController: Scan berhasil (QR Code didapat)
     
-    state KirimAPI {
+    state PresensiController {
         [*] --> ValidasiInline: Controller Request Check
         ValidasiInline --> CariSiswa: Valid
         
@@ -28,7 +28,7 @@ stateDiagram-v2
         KirimEmail --> [*]: Return 201 (Success)
     }
 
-    KirimAPI --> TampilkanHasil: Response JSON
+    PresensiController --> TampilkanHasil: Response JSON
     TampilkanHasil --> [*]: Selesai
 ```
 
