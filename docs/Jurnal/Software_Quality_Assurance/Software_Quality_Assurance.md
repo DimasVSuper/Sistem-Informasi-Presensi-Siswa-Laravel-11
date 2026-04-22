@@ -15,7 +15,7 @@ Dokumen SQA ini menjelaskan strategi pengujian dan kualitas untuk Sistem Presens
 - Keamanan akses dashboard admin.
 
 ### 2.2. Metode Pengujian
-- Unit testing untuk service dan validasi logika bisnis.
+- Unit testing untuk model dan logika inti.
 - Feature testing untuk API endpoints dan alur pengguna.
 - Manual testing untuk PWA dan email notifikasi.
 - Regression testing setelah perbaikan bug.
@@ -61,7 +61,7 @@ Dokumen SQA ini menjelaskan strategi pengujian dan kualitas untuk Sistem Presens
   3. Sistem mengembalikan 404.
 - Status: Ditemukan.
 - Prioritas: Tinggi.
-- Tindakan: Periksa logika pencarian `Siswa` pada `PresensiService`.
+- Tindakan: Periksa logika pencarian `Siswa` pada `PresensiController`.
 
 ### Bug-002
 - Deskripsi: Email notifikasi tidak terkirim karena konfigurasi SMTP tidak benar.
@@ -86,11 +86,11 @@ Dokumen SQA ini menjelaskan strategi pengujian dan kualitas untuk Sistem Presens
 
 ### 5.1. Performa
 - Endpoint `POST /api/presensi` dioptimalkan dengan query sederhana pada tabel `siswa` dan `presensi`.
-- Logika `PresensiService` menggunakan transaksional DB untuk memastikan integritas data.
+- Logika `PresensiController` menggunakan transaksional DB untuk memastikan integritas data.
 - PWA memuat halaman scan cepat dengan asset yang dicache melalui `service worker`.
 
 ### 5.2. Keamanan
-- Validasi request pada `PresensiRequest`, `SiswaRequest`, `OrangTuaRequest`, dan `AuthRequest`.
+- Validasi request secara terpusat di dalam Controller untuk memastikan integritas data.
 - Otentikasi untuk dashboard admin menggunakan Laravel Auth.
 - Input `qr_code`, `nis`, `email`, dan `orang_tua_id` divalidasi untuk mencegah data tidak valid.
 - Data sensitif pengguna disimpan dengan hashing pada `password`.

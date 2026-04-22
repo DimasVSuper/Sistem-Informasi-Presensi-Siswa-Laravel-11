@@ -1,11 +1,11 @@
 {
-    "name": "Presensi Siswa",
-    "short_name": "Presensi",
+    "name": "PresensiGo",
+    "short_name": "PresensiGo",
     "start_url": "/scan",
-    "background_color": "#667eea",
-    "description": "Sistem Presensi Siswa berbasis QR Code",
+    "background_color": "#4f46e5",
+    "description": "Sistem Presensi Siswa berbasis QR Code (PresensiGo)",
     "display": "standalone",
-    "theme_color": "#667eea",
+    "theme_color": "#4f46e5",
     "icons": [
         {
             "src": "icon-72x72.png?v=1776325267",

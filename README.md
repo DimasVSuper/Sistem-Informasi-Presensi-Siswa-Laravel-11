@@ -11,19 +11,17 @@ PresensiGo adalah aplikasi berbasis web (PWA) yang dirancang untuk mengelola abs
 
 ## 🛠️ Tech Stack
 - **Backend**: Laravel 11 (PHP 8.2+)
-- **Frontend**: Tailwind CSS (Vite Engine), Vue.js 3 (CDN for reactivity)
+- **Frontend**: Tailwind CSS (CDN), Vue.js 3 (CDN for reactivity)
 - **Library Utama**:
   - `html5-qrcode`: Untuk mesin pemindaian kamera.
   - `qrcodejs`: Untuk pembuatan kode QR.
   - `feather-icons`: Untuk antarmuka yang bersih.
 
 ## 📂 Struktur Folder Proyek
-Kami menggunakan arsitektur **Clean Code** dengan pemisahan tanggung jawab yang jelas:
+Kami menggunakan arsitektur **Clean Laravel 11** dengan struktur ramping:
 
-- `app/Http/Controllers`: Menangani navigasi dan aliran data primer (KISS Pattern).
-- `app/Http/Requests`: Menampung seluruh aturan validasi form secara terpusat.
-- `app/Services`: **Jantung Aplikasi**. Seluruh logika bisnis (seperti proses scan dan pencatatan presensi) ada di sini.
-- `app/Observers`: Menangani efek samping model seperti generate QR otomatis dan notifikasi email setelah presensi tercatat.
+- `app/Http/Controllers`: Menangani navigasi, validasi data, dan logika inti (KISS Pattern).
+- `app/Models`: Definisi skema database dan otomatisasi event (seperti generate QR otomatis di `Siswa.php`).
 - `app/Traits`: Logika yang dapat digunakan berulang (seperti standarisasi JSON Response API).
 - `resources/views`: Menggunakan *Unified Layout API* di `app.blade.php` untuk konsistensi desain.
 - `public/`: Berisi aset PWA seperti `manifest.json` dan `sw.js` (Service Worker).

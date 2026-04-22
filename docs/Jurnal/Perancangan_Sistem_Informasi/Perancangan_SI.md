@@ -28,16 +28,15 @@ Komponen utama sistem:
 - `OrangTua`
 - `Presensi`
 - `User`
-- `PresensiService`
-- `SiswaService`
-- `OrangTuaService`
 - `PresensiController`
 - `AuthController`
+- `SiswaController`
+- `OrangTuaController`
 
 Relasi penting:
 - `Siswa` memiliki `orang_tua_id`
 - `Presensi` berelasi ke `Siswa`
-- `PresensiService` bertanggung jawab atas logika validasi scan dan notifikasi
+- `PresensiController` bertanggung jawab atas logika validasi scan dan pengiriman notifikasi via email.
 
 ## 3. ERD (Entity Relationship Diagram)
 
@@ -146,20 +145,16 @@ Constraint penting:
 
 ### Lapisan Backend
 - Laravel 11 sebagai framework utama
-- Controller dan API:
+- Controller dan API (KISS Pattern):
   - `App\Http\Controllers\Api\PresensiController`
   - `App\Http\Controllers\AuthController`
   - `App\Http\Controllers\SiswaController`
   - `App\Http\Controllers\OrangTuaController`
-- Service Layer untuk logika bisnis:
-  - `App\Services\PresensiService`
-  - `App\Services\SiswaService`
-  - `App\Services\OrangTuaService`
-- Request validation:
-  - `App\Http\Requests\Api\PresensiRequest`
-  - `App\Http\Requests\SiswaRequest`
-  - `App\Http\Requests\OrangTuaRequest`
-  - `App\Http\Requests\AuthRequest`
+  - `App\Http\Controllers\DashboardController`
+- Validasi data ditangani secara inline di dalam method Controller.
+- Otomasi data di tingkat Model:
+  - `App\Models\Siswa` (QR Code auto-generation via `booted()` method)
+  - `App\Models\Presensi` (Logika query scope)
 
 ### Integrasi Notifikasi
 - Email notifikasi menggunakan `App\Mail\AttendanceNotification`

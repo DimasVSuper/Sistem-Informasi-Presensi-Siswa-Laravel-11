@@ -38,41 +38,36 @@ classDiagram
         +string password
     }
 
-    class PresensiService {
-        +processScan(qrCode)
-        #findSiswaByQrCode()
-        #hasAlreadyPresensiToday()
-        #createPresensiRecord()
-    }
-
     class PresensiController {
-        +store(PresensiRequest)
+        +store(Request)
+        #successResponse()
+        #errorResponse()
     }
 
-    class PresensiObserver {
-        +created(Presensi)
+    class ApiResponser {
+        <<trait>>
+        +successResponse()
+        +errorResponse()
     }
 
     Siswa "1" *-- "1" OrangTua : belongsTo
     Siswa "1" --* "n" Presensi : hasMany
-    PresensiController ..> PresensiService : uses
-    PresensiService ..> Siswa : manages
-    PresensiService ..> Presensi : creates
-    PresensiObserver ..> Presensi : observes
-    PresensiObserver ..> OrangTua : notifies
+    PresensiController ..> Siswa : queries
+    PresensiController ..> Presensi : creates
+    PresensiController ..> ApiResponser : uses
 ```
 
 ### Struktur Detail Kelas (Versi Tekstual)
 - **Model: Siswa**
     - Atribut: `id`, `nama`, `nis`, `qr_code`, `orang_tua_id`
     - Relasi: `belongsTo(OrangTua)`, `hasMany(Presensi)`
+    - Event: `booted()` -> Otomatis generate `qr_code` saat create.
 - **Model: OrangTua**
     - Atribut: `id`, `nama`, `email`
     - Relasi: `hasMany(Siswa)`
 - **Model: Presensi**
     - Atribut: `id`, `siswa_id`, `tanggal`, `waktu`, `status`
     - Relasi: `belongsTo(Siswa)`
-- **Service: PresensiService**
-    - Metode Utama: `processScan(qrCode)` -> Mengembalikan array response.
-- **Observer: PresensiObserver**
-    - Trigger: `created(Presensi)` -> Mengirim email.
+- **Controller: PresensiController**
+    - Method: `store(Request)` -> Validasi, Simpan, dan Kirim Email.
+    - Trait: `ApiResponser` -> Standarisasi JSON.

@@ -1,8 +1,8 @@
 ## Daftar Dokumen
 1.  [**Arsitektur Aplikasi**](ARCHITECTURE.md)
-    *Penyelaman mendalam tentang Service Layer, Form Requests, dan alur data.*
+    *Penyelaman mendalam tentang Unified Controller logic, Model Events, dan alur data.*
 2.  [**Detail Logic Backend**](backend/LOGIC.md)
-    *Penjelasan mendalam tentang Service, Model, dan Validasi.*
+    *Penjelasan mengenai Controller, Model lifecycle, dan integrasi API.*
 3.  [**Detail Frontend & PWA**](frontend/UI_UX.md)
     *Detail tentang UI design, Vue.js integration, dan fitur offline.*
 4.  [**Panduan API**](../README.md#struktur-folder-proyek)

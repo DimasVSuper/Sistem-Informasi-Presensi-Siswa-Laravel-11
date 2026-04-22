@@ -12,11 +12,7 @@ flowchart TB
 
     subgraph Http [Http Layer]
         Controller[PresensiController]
-        Request[PresensiRequest]
-    end
-
-    subgraph Business [Service Layer]
-        Service[PresensiService]
+        Trait[ApiResponser]
     end
 
     subgraph Database [Eloquent Models]
@@ -25,16 +21,14 @@ flowchart TB
         ModelPresensi[Presensi]
     end
 
-    subgraph SideEffects [Observers & Mail]
-        Observer[PresensiObserver]
+    subgraph SideEffects [Mail]
         Mail[AttendanceNotification]
     end
 
     Frontend -- "POST /api/presensi" --> Http
-    Http -- "dependency injection" --> Business
-    Business -- "CRUD" --> Database
-    Database -- "Event" --> Observer
-    Observer -- "triggers" --> Mail
+    Http -- "Standardization" --> Trait
+    Http -- "Logic & CRUD" --> Database
+    Http -- "Direct Mail" --> Mail
 ```
 
 ### Daftar Komponen & Dependensi (Versi Tekstual)
@@ -43,11 +37,9 @@ flowchart TB
     - `QR Scanner (Blade)` -> Entry point utama pemindaian.
     - `sw.js` -> Service worker untuk dukungan offline.
 - **Backend (HTTP Layer)**:
-    - `PresensiController` -> Menghubungkan API ke Service.
-    - `PresensiRequest` -> Validasi data `qr_code`.
-- **Logic (Service Layer)**:
-    - `PresensiService` -> Jantung aplikasi; verifikasi QR & cegah double presensi.
+    - `PresensiController` -> Menangani request, validasi, dan alur data utama (KISS).
+    - `ApiResponser` -> Trait untuk standarisasi format output JSON.
 - **Data (Eloquent Models)**:
     - `Siswa`, `OrangTua`, `Presensi`, `User`.
-- **Events (Observers)**:
-    - `PresensiObserver` -> Trigger otomatis kirim email setelah data masuk di `Presensi`.
+- **Side Effects (Mail)**:
+    - `AttendanceNotification` -> Email yang dikirim langsung dari Controller setelah presensi berhasil dicatat.
