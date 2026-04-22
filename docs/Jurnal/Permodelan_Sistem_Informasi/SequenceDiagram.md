@@ -1,18 +1,54 @@
 # Sequence Diagram
 
-## Alur Interaksi untuk Presensi QR
+## Alur Interaksi Presensi Siswa
 
-1. `Siswa` membuka halaman scan QR.
-2. `Frontend` meminta kamera untuk memindai QR Code.
-3. `Siswa` memindai QR Code.
-4. `Frontend` mengirim request `POST /api/presensi` dengan `qr_code`.
-5. `PresensiController` menerima request.
-6. `PresensiController` memanggil `PresensiService::processScan(qr_code)`.
-7. `PresensiService` mencari `Siswa` berdasarkan `qr_code`.
-8. Jika siswa tidak ditemukan, kembali ke `PresensiController` dengan error.
-9. Jika ditemukan, `PresensiService` memeriksa `Presensi` hari ini.
-10. Jika sudah absen, kembalikan pesan bahwa siswa sudah hadir.
-11. Jika belum absen, `PresensiService` menyimpan rekaman `Presensi`.
-12. Setelah berhasil, `PresensiService` memicu pengiriman email menggunakan `AttendanceNotification`.
-13. `PresensiController` mengembalikan response JSON ke `Frontend`.
-14. `Frontend` menampilkan hasil ke `Siswa`.
+```mermaid
+sequenceDiagram
+    participant S as Siswa
+    participant F as Frontend (PWA)
+    participant C as PresensiController
+    participant SRV as PresensiService
+    participant DB as Database
+    participant OBS as PresensiObserver
+    participant M as Mail (SMTP)
+
+    Note over S,F: QRCode Scanning Phase
+    S->>F: Buka Halaman Scan & Arahkan Kamera
+    F->>F: Menangkap QR Code
+    F->>C: POST /api/presensi {qr_code}
+    
+    rect rgb(240, 240, 240)
+        Note over C,SRV: Logic processing
+        C->>SRV: processScan(qr_code)
+        SRV->>DB: findSiswaByQrCode(qr_code)
+        DB-->>SRV: Siswa Object
+        SRV->>DB: hasAlreadyPresensiToday(siswa_id)
+        DB-->>SRV: False (Belum Absen)
+        SRV->>DB: createPresensiRecord()
+        DB-->>SRV: Presensi Object
+    end
+
+    SRV-->>C: array [success: true, data: ...]
+    
+    rect rgb(230, 245, 230)
+        Note over DB,M: Async Trigger (Observer)
+        DB-->>OBS: Created Event
+        OBS->>DB: Get OrangTua Email
+        OBS->>M: Send AttendanceNotification
+    end
+
+    C-->>F: JSON Resource (201 Created)
+    F-->>S: Tampilkan Pesan Berhasil & Detail
+```
+
+### Log Interaksi Pesan (Versi Tekstual)
+
+1.  **Frontend (UI)** -> **Controller**: `POST /api/presensi` membawa `qr_code`.
+2.  **Controller** -> **Service**: `processScan(qr_code)` memulai validasi.
+3.  **Service** -> **Database**: Query `Siswa` berdasarkan QR.
+4.  **Service** -> **Database**: Cek keberadaan `Presensi` untuk `siswa_id` pada tanggal hari ini.
+5.  **Service** -> **Database**: `Insert` record baru ke tabel `presensi`.
+6.  **Database** -> **Observer**: Event `created` terpanggil saat insert berhasil.
+7.  **Observer** -> **Mail**: Membentuk objek `AttendanceNotification` dan mengirim via SMTP.
+8.  **Service** -> **Controller**: Mengembalikan status `success`.
+9.  **Controller** -> **Frontend (UI)**: Response JSON 201 ditampilkan sebagai alert sukses di layar.
