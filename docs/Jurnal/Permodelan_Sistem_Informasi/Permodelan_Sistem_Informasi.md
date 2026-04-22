@@ -34,11 +34,11 @@ flowchart TD
 ## 3. Komponen Permodelan
 Sistem ini dimodelkan menggunakan standar UML yang terdiri dari:
 
-1.  **[Activity Diagram](ActivityDiagram.md)**: Menggambarkan alur kerja detail dari sisi pengguna dan sistem.
-2.  **[Class Diagram](ClassDiagram.md)**: Peta struktur database, model Eloquent, dan relasi antar entitas.
-3.  **[Package Diagram](PackageDiagram.md)**: Visualisasi layer arsitektur (Frontend, Controller, Service, Model).
-4.  **[Sequence Diagram](SequenceDiagram.md)**: Detail interaksi pesan antar objek dalam satu siklus presensi.
-5.  **[Use Case Diagram](Use_case.md)**: Gambaran interaksi aktor (Siswa, Admin, Orang Tua) terhadap fitur sistem.
+1.  **[Activity Diagram](Diagram/ActivityDiagram.md)**: Menggambarkan alur kerja detail dari sisi pengguna dan sistem.
+2.  **[Class Diagram](Diagram/ClassDiagram.md)**: Peta struktur database, model Eloquent, dan relasi antar entitas.
+3.  **[Package Diagram](Diagram/PackageDiagram.md)**: Visualisasi layer arsitektur (Frontend, Controller, Service, Model).
+4.  **[Sequence Diagram](Diagram/SequenceDiagram.md)**: Detail interaksi pesan antar objek dalam satu siklus presensi.
+5.  **[Use Case Diagram](Diagram/UseCaseDiagram.md)**: Gambaran interaksi aktor (Siswa, Admin, Orang Tua) terhadap fitur sistem.
 
 ## 4. Keselarasan dengan Projek
 Pemodelan ini sepenuhnya mencerminkan implementasi pada kode sumber:
