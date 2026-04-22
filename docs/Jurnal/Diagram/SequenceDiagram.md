@@ -15,7 +15,7 @@ sequenceDiagram
     F->>F: Menangkap QR Code
     F->>C: POST /api/presensi {qr_code}
     
-    rect rgb(240, 240, 240)
+    rect rgba(255, 0, 0, 1)
         Note over C,DB: logic processing
         C->>DB: findSiswaByQrCode(qr_code)
         DB-->>C: Siswa Object
@@ -25,7 +25,7 @@ sequenceDiagram
         DB-->>C: Presensi Object
     end
 
-    rect rgb(240, 240, 240)
+    rect rgba(255, 0, 0, 1)
         Note over C,M: notification processing
         C->>M: Send AttendanceNotification
     end
