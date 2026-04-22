@@ -25,8 +25,9 @@ flowchart LR
     
     SiswaActor --> UC4
     
-    UC4 ..> UC5 : << include >>
-    UC5 ..> UC6 : << include >>
+    %% Gunakan -.->|label| untuk dashed line include
+    UC4 -.->|include| UC5
+    UC5 -.->|include| UC6
     
     UC6 --- OrangTuaActor
 ```
