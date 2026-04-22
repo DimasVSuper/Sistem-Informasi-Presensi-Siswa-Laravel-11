@@ -2,30 +2,50 @@
 
 ## Aktivitas Utama Presensi QR Code
 
-### Alur Aktivitas
-1. Siswa membuka halaman scan QR.
-2. Sistem memulai kamera dan menunggu pemindaian.
-3. Siswa memindai QR Code.
-4. Sistem menerima kode QR dan mengirim request ke API.
-5. Sistem memvalidasi apakah `qr_code` ada di tabel `siswa`.
-6. Jika tidak valid:
-   - Sistem mengirim pesan error ke pengguna.
-   - Proses berakhir.
-7. Jika valid:
-   - Sistem memeriksa apakah siswa sudah absen pada tanggal hari ini.
-   - Jika sudah, sistem menampilkan pesan "Sudah absen hari ini".
-   - Jika belum, sistem menyimpan entri `presensi`.
-   - Sistem mengirim notifikasi email ke orang tua.
-   - Sistem menampilkan pesan sukses.
-8. Proses selesai.
+```mermaid
+stateDiagram-v2
+    [*] --> BukaHalamanScan: Siswa membuka halaman scan
+    BukaHalamanScan --> ScanQRCode: Sistem memulai kamera
+    ScanQRCode --> KirimAPI: Scan berhasil (QR Code didapat)
+    
+    state KirimAPI {
+        [*] --> ValidasiRequest: PresensiRequest
+        ValidasiRequest --> PanggilService: Data Valid
+        PanggilService --> CariSiswa: Service mencari QR di DB
+        
+        CariSiswa --> SiswaDitemukan: Siswa Ada
+        CariSiswa --> SiswaTidakAda: Siswa Tidak Ada
+        
+        SiswaTidakAda --> [*]: Return 404 (Error)
+        
+        SiswaDitemukan --> CekPresensiHariIni: Cek Double Scan
+        CekPresensiHariIni --> BelumAbsen: Belum Ada
+        CekPresensiHariIni --> SudahAbsen: Sudah Ada
+        
+        SudahAbsen --> [*]: Return 409 (Conflict)
+        
+        BelumAbsen --> SimpanPresensi: Buat Record Presensi
+        SimpanPresensi --> TriggerObserver: Eloquent Created Event
+        TriggerObserver --> [*]: Return 201 (Success)
+    }
 
-## Node Aktivitas
-- Start
-- Buka Halaman Scan
-- Pindai QR Code
-- Validasi QR Code
-- Cek Presensi Harian
-- Simpan Presensi
-- Kirim Notifikasi Email
-- Tampilkan Hasil
-- End
+    state TriggerObserver {
+        [*] --> AmbilDataOrangTua
+        AmbilDataOrangTua --> KirimEmail: Email Tersedia
+        KirimEmail --> [*]: AttendanceNotification Sent
+    }
+
+    KirimAPI --> TampilkanHasil: Response JSON
+    TampilkanHasil --> [*]: Selesai
+```
+
+### Narasi Aktivitas (Versi Tekstual)
+1.  **Awal**: Siswa membuka aplikasi di perangkat mobile (PWA).
+2.  **Scan**: Kamera aktif, siswa mengarahkan ke QR Code.
+3.  **Request**: Frontend mengekstrak payload QR dan mengirim `POST` ke `/api/presensi`.
+4.  **Validasi**:
+    *   Sistem mencari record siswa. Jika tidak ada -> Error 404.
+    *   Sistem mengecek tabel presensi hari ini. Jika sudah ada -> Error 409.
+5.  **Penyimpanan**: Jika lolos validasi, record presensi baru disimpan (ID siswa, tanggal, waktu, status).
+6.  **Notifikasi**: `PresensiObserver` secara otomatis mendeteksi record baru dan mengirim email ke orang tua via SMTP.
+7.  **Selesai**: Frontend menampilkan respon sukses ke siswa.
