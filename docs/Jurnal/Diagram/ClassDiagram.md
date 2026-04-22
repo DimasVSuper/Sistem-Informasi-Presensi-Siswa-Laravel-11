@@ -45,7 +45,7 @@ classDiagram
     }
 
     class ApiResponser {
-        <<trait>>
+        <<Trait API>>
         +successResponse()
         +errorResponse()
     }
