@@ -26,7 +26,7 @@ flowchart TB
     end
 
     Frontend -- "POST /api/presensi" --> Http
-    Http -- "Standardization" --> Trait
+    Http-API -- "Standardization" --> Trait
     Http -- "Logic & CRUD" --> Database
     Http -- "Direct Mail" --> Mail
 ```
