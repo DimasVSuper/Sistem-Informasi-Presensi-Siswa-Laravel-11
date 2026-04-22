@@ -118,7 +118,7 @@ Sekolah membutuhkan sistem presensi digital yang cepat, akurat, dan dapat terint
 
 ### 5.2. Sumber Daya Teknis
 - Framework backend: Laravel 11.
-- Frontend PWA: Blade + Tailwind + Vite.
+- Frontend PWA: Blade + VueJS CDN + Tailwind + Vite.
 - Database: MySQL atau database relasional serupa.
 - Infrastruktur email: konfigurasi mail driver SMTP atau layanan pihak ketiga.
 
