@@ -2,31 +2,23 @@
 
 namespace App\Traits;
 
-use Illuminate\Http\JsonResponse;
-
 trait ApiResponser
 {
-    /**
-     * Return a success JSON response.
-     */
-    protected function successResponse(string $message, mixed $data = null, int $code = 200): JsonResponse
+    protected function successResponse(string $message, mixed $data = null, int $status = 200)
     {
         return response()->json([
             'success' => true,
             'message' => $message,
             'data' => $data,
-        ], $code);
+        ], $status);
     }
 
-    /**
-     * Return an error JSON response.
-     */
-    protected function errorResponse(string $message, int $code, mixed $data = null): JsonResponse
+    protected function errorResponse(string $message, int $status = 422, mixed $data = null)
     {
         return response()->json([
             'success' => false,
             'message' => $message,
             'data' => $data,
-        ], $code);
+        ], $status);
     }
 }

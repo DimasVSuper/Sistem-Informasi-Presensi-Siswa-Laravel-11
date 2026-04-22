@@ -80,6 +80,6 @@ class PresensiApiTest extends TestCase
                 'message' => 'Siswa '.$siswa->nama.' sudah melakukan presensi hari ini.',
             ]);
 
-        Mail::assertSent(AttendanceNotification::class, 1);
+        Mail::assertNothingSent();
     }
 }

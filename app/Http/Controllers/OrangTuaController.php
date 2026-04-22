@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrangTuaRequest;
 use App\Models\OrangTua;
-use App\Services\OrangTuaService;
+use Illuminate\Http\Request;
 
 class OrangTuaController extends Controller
 {
-    public function __construct(protected OrangTuaService $orangTuaService) {}
-
     public function index()
     {
-        $orangTua = $this->orangTuaService->getPaginated();
+        $orangTua = OrangTua::latest()->paginate(10);
 
         return view('dashboard.orang-tua.index', compact('orangTua'));
     }
@@ -22,9 +19,14 @@ class OrangTuaController extends Controller
         return view('dashboard.orang-tua.create');
     }
 
-    public function store(OrangTuaRequest $request)
+    public function store(Request $request)
     {
-        $this->orangTuaService->create($request->validated());
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:orang_tua,email',
+        ]);
+
+        OrangTua::create($validated);
 
         return redirect()->route('orang-tua.index')->with('success', 'Data Orang Tua berhasil ditambahkan.');
     }
@@ -34,16 +36,21 @@ class OrangTuaController extends Controller
         return view('dashboard.orang-tua.edit', compact('orangTua'));
     }
 
-    public function update(OrangTuaRequest $request, OrangTua $orangTua)
+    public function update(Request $request, OrangTua $orangTua)
     {
-        $this->orangTuaService->update($orangTua, $request->validated());
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|unique:orang_tua,email,' . $orangTua->id,
+        ]);
+
+        $orangTua->update($validated);
 
         return redirect()->route('orang-tua.index')->with('success', 'Data Orang Tua berhasil diubah.');
     }
 
     public function destroy(OrangTua $orangTua)
     {
-        $this->orangTuaService->delete($orangTua);
+        $orangTua->delete();
 
         return redirect()->route('orang-tua.index')->with('success', 'Data Orang Tua berhasil dihapus.');
     }

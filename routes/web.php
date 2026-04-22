@@ -25,12 +25,16 @@ Route::get('/generate', function () {
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.post');
+
+    // Apabila ingin menggunakan GET untuk logout, karena guest yang iseng akses logout, maka tambahkan route GET untuk logout
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
-
-// Dashboard & Master Data Routes (Protected)
 Route::middleware('auth')->group(function () {
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Dashboard & Master Data Routes (Protected)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::resource('orang-tua', OrangTuaController::class);
     Route::resource('siswa', SiswaController::class);

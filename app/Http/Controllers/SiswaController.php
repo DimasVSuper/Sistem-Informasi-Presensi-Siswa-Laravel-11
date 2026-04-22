@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SiswaRequest;
 use App\Models\OrangTua;
 use App\Models\Siswa;
-use App\Services\SiswaService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SiswaController extends Controller
 {
-    public function __construct(protected SiswaService $siswaService) {}
-
     public function index()
     {
-        $siswa = $this->siswaService->getPaginated();
+        $siswa = Siswa::with('orangTua')->latest()->paginate(10);
 
         return view('dashboard.siswa.index', compact('siswa'));
     }
@@ -25,9 +23,15 @@ class SiswaController extends Controller
         return view('dashboard.siswa.create', compact('orangTua'));
     }
 
-    public function store(SiswaRequest $request)
+    public function store(Request $request)
     {
-        $this->siswaService->create($request->validated());
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'nis' => 'required|string|unique:siswa,nis',
+            'orang_tua_id' => 'required|exists:orang_tua,id',
+        ]);
+
+        Siswa::create($validated);
 
         return redirect()->route('siswa.index')->with('success', 'Data Siswa berhasil ditambahkan. QR Code otomatis di-generate.');
     }
@@ -39,16 +43,22 @@ class SiswaController extends Controller
         return view('dashboard.siswa.edit', compact('siswa', 'orangTua'));
     }
 
-    public function update(SiswaRequest $request, Siswa $siswa)
+    public function update(Request $request, Siswa $siswa)
     {
-        $this->siswaService->update($siswa, $request->validated());
+        $validated = $request->validate([
+            'nama' => 'required|string|max:255',
+            'nis' => 'required|string|unique:siswa,nis,' . $siswa->id,
+            'orang_tua_id' => 'required|exists:orang_tua,id',
+        ]);
+
+        $siswa->update($validated);
 
         return redirect()->route('siswa.index')->with('success', 'Data Siswa berhasil diubah.');
     }
 
     public function destroy(Siswa $siswa)
     {
-        $this->siswaService->delete($siswa);
+        $siswa->delete();
 
         return redirect()->route('siswa.index')->with('success', 'Data Siswa berhasil dihapus.');
     }

@@ -6,7 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class AuthenticationTest extends TestCase
+class AuthControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -22,7 +22,7 @@ class AuthenticationTest extends TestCase
         $response->assertRedirect('/login');
     }
 
-        public function test_user_bisa_akses_dashboard_ketika_sudah_login()
+    public function test_user_bisa_akses_dashboard_ketika_sudah_login()
     {
         $user = User::factory()->create([
             'email' => 'admin@test.com',
@@ -141,4 +141,9 @@ class AuthenticationTest extends TestCase
         $response->assertStatus(200);
     }
 
+    public function test_user_belum_login_dan_mencoba_mengakses_route_get_logout_maka_akan_diarahkan_ke_login()
+    {
+        $response = $this->get('/logout');
+        $response->assertRedirect('/login');
+    }
 }

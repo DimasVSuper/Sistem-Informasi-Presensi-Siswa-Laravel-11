@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AuthRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,9 +12,27 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function authenticate(AuthRequest $request)
+    public function logout(Request $request)
     {
-        if (Auth::attempt($request->validated())) {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('scan');
+    }
+
+    public function authenticate(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ], [
+            'email.required' => 'Email wajib diisi',
+            'email.email' => 'Email tidak valid',
+            'password.required' => 'Password wajib diisi',
+        ]);
+
+        if (Auth::attempt($validated)) {
             $request->session()->regenerate();
 
             return redirect()->intended(route('dashboard.index'));
@@ -26,12 +43,5 @@ class AuthController extends Controller
         ])->onlyInput('email');
     }
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
 
-        return redirect()->route('scan');
-    }
 }

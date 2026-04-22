@@ -27,6 +27,7 @@
 <body class="bg-gray-50 flex h-screen overflow-hidden text-gray-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
 
     @auth
+        @unless(request()->is('scan') || request()->is('generate') || request()->is('login'))
         <!-- AUTH LOGGED-IN: Sidebar -->
         <aside class="w-64 bg-indigo-900 text-white flex flex-col transition-all duration-300 shadow-xl z-20">
             <div class="h-16 flex items-center px-6 border-b border-indigo-800 font-bold text-lg tracking-wider">
@@ -64,6 +65,7 @@
                 </form>
             </div>
         </aside>
+        @endunless
     @endauth
 
     <!-- Main Content Wrapper -->
