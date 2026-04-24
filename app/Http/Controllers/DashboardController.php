@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\OrangTua;
 use App\Models\Presensi;
 use App\Models\Siswa;
 use Carbon\Carbon;
@@ -13,6 +14,7 @@ class DashboardController extends Controller
         $today = Carbon::today()->toDateString();
 
         $totalSiswa = Siswa::count();
+        $totalOrangTua = OrangTua::count();
         $totalHadir = Presensi::where('tanggal', $today)->count();
         $belumHadir = $totalSiswa - $totalHadir;
 
@@ -21,6 +23,6 @@ class DashboardController extends Controller
             ->latest('waktu')
             ->get();
 
-        return view('dashboard.index', compact('totalSiswa', 'totalHadir', 'belumHadir', 'recentPresensi', 'today'));
+        return view('dashboard.index', compact('totalSiswa', 'totalOrangTua', 'totalHadir', 'belumHadir', 'recentPresensi', 'today'));
     }
 }

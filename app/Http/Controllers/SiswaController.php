@@ -9,9 +9,16 @@ use Illuminate\Support\Str;
 
 class SiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $siswa = Siswa::with('orangTua')->latest()->paginate(10);
+        $query = Siswa::with('orangTua')->latest();
+
+        if ($request->has('search')) {
+            $query->where('nama', 'like', '%' . $request->search . '%')
+                  ->orWhere('nis', 'like', '%' . $request->search . '%');
+        }
+
+        $siswa = $query->paginate(10);
 
         return view('dashboard.siswa.index', compact('siswa'));
     }
