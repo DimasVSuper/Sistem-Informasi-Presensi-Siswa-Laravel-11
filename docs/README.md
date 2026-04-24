@@ -1,28 +1,30 @@
+# Pusat Dokumentasi PresensiGo
+
+Selamat datang di pusat dokumentasi teknis dan manajemen proyek PresensiGo. Dokumen ini dirancang untuk memberikan pemahaman menyeluruh tentang cara kerja sistem, keputusan arsitektur, dan jaminan kualitas.
+
 ## Daftar Dokumen
+
 1.  [**Arsitektur Aplikasi**](ARCHITECTURE.md)
     *Penyelaman mendalam tentang Unified Controller logic, Model Events, dan alur data.*
 2.  [**Detail Logic Backend**](backend/LOGIC.md)
     *Penjelasan mengenai Controller, Model lifecycle, dan integrasi API.*
 3.  [**Detail Frontend & PWA**](frontend/UI_UX.md)
-    *Detail tentang UI design, Vue.js integration, dan fitur offline.*
-4.  [**Panduan API**](../README.md#struktur-folder-proyek)
-    *Ringkasan mengenai endpoint dan respons sistem.*
-5.  [**Dokumen Jurnal**](Jurnal/Manajemen_Proyek_Sistem_Informasi/Manajemen_Proyek_Sistem_Informasi.md)
-    *Dokumentasi tugas akhir dan laporan manajemen proyek.*
-5.  [**Perancangan Sistem Informasi**](Jurnal/Perancangan_Sistem_Informasi/Perancangan_SI.md)
+    *Detail tentang UI design, fitur offline, dan integrasi library scanner.*
+4.  [**Perancangan Sistem Informasi**](Jurnal/Perancangan_Sistem_Informasi/Perancangan_SI.md)
     *UML, ERD, DFD, rancangan database, dan arsitektur sistem.*
-6.  [**Permodelan Sistem Informasi**](Jurnal/Permodelan_Sistem_Informasi/Permodelan_Sistem_Informasi.md)
+5.  [**Permodelan Sistem Informasi**](Jurnal/Permodelan_Sistem_Informasi/Permodelan_Sistem_Informasi.md)
     *BPMN, flowchart, dan simulasi alur presensi serta notifikasi.*
-7.  [**Manajemen Proyek SI**](Jurnal/Manajemen_Proyek_Sistem_Informasi/Manajemen_Proyek_Sistem_Informasi.md)
-    *Project charter, WBS, Gantt chart, risk management, dan resource allocation.*
-8.  [**Software Quality Assurance**](Jurnal/Software_Quality_Assurance/Software_Quality_Assurance.md)
-    *Test plan, test case, bug report, hasil uji performa dan keamanan.*
-
-## Petunjuk Pengembang
-Untuk menjaga kualitas kode tetap tinggi, harap jalankan formatter sebelum melakukan commit:
-```bash
-./vendor/bin/pint
-```
+6.  [**Manajemen Proyek SI**](Jurnal/Manajemen_Proyek_Sistem_Informasi/Manajemen_Proyek_Sistem_Informasi.md)
+    *Project charter, WBS, Gantt chart, dan laporan manajemen proyek.*
+7.  [**Software Quality Assurance**](Jurnal/Software_Quality_Assurance/Software_Quality_Assurance.md)
+    *Test plan, test case, bug report, dan pemetaan automated tests.*
 
 ---
-[Kembali ke root project](../README.md)
+
+## Panduan Cepat Navigasi
+
+- Jika Anda seorang **Developer Backend**, mulailah dari [ARCHITECTURE.md](ARCHITECTURE.md).
+- Jika Anda ingin melihat **Alur Bisnis**, buka [Permodelan_Sistem_Informasi.md](Jurnal/Permodelan_Sistem_Informasi/Permodelan_Sistem_Informasi.md).
+- Untuk melihat **Hasil Pengujian**, buka [Software_Quality_Assurance.md](Jurnal/Software_Quality_Assurance/Software_Quality_Assurance.md).
+
+[Kembali ke README Utama](../README.md)
