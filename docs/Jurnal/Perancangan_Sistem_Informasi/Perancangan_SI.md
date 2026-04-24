@@ -50,7 +50,7 @@ Entitas dan relasi:
 - `orang_tua`
   - `id`
   - `nama`
-  - `email`
+  - `email` (Nullable)
 
 - `siswa`
   - `id`
@@ -108,7 +108,7 @@ Tabel dan kolom utama:
 ### orang_tua
 - `id`
 - `nama`
-- `email`
+- `email` (Nullable)
 - `created_at`
 - `updated_at`
 
