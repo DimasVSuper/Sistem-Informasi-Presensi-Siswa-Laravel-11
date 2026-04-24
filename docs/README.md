@@ -18,6 +18,7 @@ Selamat datang di pusat dokumentasi teknis dan manajemen proyek PresensiGo. Doku
     *Project charter, WBS, Gantt chart, dan laporan manajemen proyek.*
 7.  [**Software Quality Assurance**](Jurnal/Software_Quality_Assurance/Software_Quality_Assurance.md)
     *Test plan, test case, bug report, dan pemetaan automated tests.*
+8.  [**Diagram**](Jurnal/Diagram) 
 
 ---
 
@@ -26,5 +27,6 @@ Selamat datang di pusat dokumentasi teknis dan manajemen proyek PresensiGo. Doku
 - Jika Anda seorang **Developer Backend**, mulailah dari [ARCHITECTURE.md](ARCHITECTURE.md).
 - Jika Anda ingin melihat **Alur Bisnis**, buka [Permodelan_Sistem_Informasi.md](Jurnal/Permodelan_Sistem_Informasi/Permodelan_Sistem_Informasi.md).
 - Untuk melihat **Hasil Pengujian**, buka [Software_Quality_Assurance.md](Jurnal/Software_Quality_Assurance/Software_Quality_Assurance.md).
+- Untuk Melihat **Diagram**, buka [Diagram](Jurnal/Diagram)
 
 [Kembali ke README Utama](../README.md)

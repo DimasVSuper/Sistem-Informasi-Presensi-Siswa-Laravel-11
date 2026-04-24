@@ -28,9 +28,7 @@ Kami menggunakan arsitektur **Clean Laravel 11** dengan struktur ramping:
 
 ## 📖 Dokumentasi Detail
 Silakan baca dokumen berikut untuk pemahaman lebih dalam:
-- [Arsitektur & Logic Flow](docs/ARCHITECTURE.md)
-- [Panduan Pengguna & Instalasi](docs/README.md)
-- [Dokumen Jurnal Proyek](docs/Jurnal/Manajemen_Proyek_Sistem_Informasi/Manajemen_Proyek_Sistem_Informasi.md)
+- [Dokumentasi](docs/README.md)
 
 ## 🔧 Cara Instalasi
 1. Clone repository
