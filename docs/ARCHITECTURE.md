@@ -5,7 +5,7 @@ Dokumen ini menjelaskan alur teknis dan keputusan arsitektural yang diambil dala
 ## 🏛️ Pola Desain (Design Patterns)
 
 ### 1. Unified Controller Logic
-Kami menggunakan pendekatan **KISS (Keep It Simple, Stupid)** dengan menempatkan logika bisnis langsung di Controller.
+Kami menggunakan pendekatan **KISS (Keep It Simple, St*pid)** dengan menempatkan logika bisnis langsung di Controller.
 - **Manfaat**: Mempercepat pengembangan, mempermudah pelacakan alur data untuk aplikasi skala menengah, dan mengurangi kompleksitas file.
 
 ### 2. ApiResponser Trait
