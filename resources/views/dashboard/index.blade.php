@@ -5,7 +5,7 @@
 
 @section('content')
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
     <!-- Stat Card 1 -->
     <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 flex items-center">
         <div class="p-4 bg-indigo-50 text-indigo-600 rounded-xl mr-5">
@@ -19,6 +19,17 @@
 
     <!-- Stat Card 2 -->
     <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 flex items-center">
+        <div class="p-4 bg-blue-50 text-blue-600 rounded-xl mr-5">
+            <i data-feather="users" class="w-8 h-8"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-500 font-medium mb-1">Total Orang Tua</p>
+            <h3 class="text-3xl font-bold text-gray-800">{{ $totalOrangTua }}</h3>
+        </div>
+    </div>
+
+    <!-- Stat Card 3 -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 flex items-center">
         <div class="p-4 bg-green-50 text-green-600 rounded-xl mr-5">
             <i data-feather="user-check" class="w-8 h-8"></i>
         </div>
@@ -28,7 +39,7 @@
         </div>
     </div>
 
-    <!-- Stat Card 3 -->
+    <!-- Stat Card 4 -->
     <div class="bg-white rounded-2xl shadow-sm p-6 border border-gray-100 flex items-center">
         <div class="p-4 bg-orange-50 text-orange-500 rounded-xl mr-5">
             <i data-feather="user-minus" class="w-8 h-8"></i>

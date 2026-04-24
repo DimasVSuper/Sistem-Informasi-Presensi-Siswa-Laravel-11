@@ -1,6 +1,6 @@
 # Dokumentasi Backend (Logic & Arsitektur)
 
-PresensiGo menggunakan pola **Service Layer** untuk memisahkan logika bisnis dari Controller. Berikut adalah detail komponen backend:
+PresensiGo menggunakan pola **Unified Controller Logic** (KISS Pattern) untuk meminimalkan kompleksitas dengan menempatkan logika bisnis langsung di Controller. Berikut adalah detail komponen backend:
 
 ## 1. Models & Database
 - **User**: Menyimpan data administrator untuk login dashboard.
