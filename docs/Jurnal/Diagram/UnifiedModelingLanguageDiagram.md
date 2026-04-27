@@ -6,26 +6,23 @@ Dokumen ini berisi kumpulan diagram UML untuk sistem PresensiGo.
 Menggambarkan interaksi aktor (Admin & Siswa) dengan sistem.
 
 ```mermaid
-usecaseDiagram
-    actor Admin
-    actor Siswa
-    
-    package "Sistem PresensiGo" {
-        usecase "Login Admin" as UC1
-        usecase "Kelola Data Siswa" as UC2
-        usecase "Kelola Data Orang Tua" as UC3
-        usecase "Scan QR Code" as UC4
-        usecase "Kirim Notifikasi Email" as UC5
-        usecase "Lihat Laporan Presensi" as UC6
-    }
-    
-    Admin --> UC1
+flowchart LR
+    subgraph Sistem_PresensiGo["Sistem PresensiGo"]
+        UC1["Login Admin"]
+        UC2["Kelola Data Siswa"]
+        UC3["Kelola Data Orang Tua"]
+        UC4["Scan QR Code"]
+        UC5["Kirim Notifikasi Email"]
+        UC6["Lihat Laporan Presensi"]
+    end
+
+    Admin["Admin"] --> UC1
     Admin --> UC2
     Admin --> UC3
     Admin --> UC6
-    
-    Siswa --> UC4
-    UC4 ..> UC5 : <<include>>
+
+    Siswa["Siswa"] --> UC4
+    UC4 -.-> UC5
 ```
 
 ---
