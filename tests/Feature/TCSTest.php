@@ -10,14 +10,14 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class TCSTest extends TestCase
 {
     use RefreshDatabase;
-
-    /**
-     * @test
-     * Test Case ID: TCS-001 (Success Presence Scan)
-     */
+    
+    // 
+    #[Test]
     public function test_TCS001_success_presence_scan(): void
     {
         Mail::fake();
@@ -38,13 +38,10 @@ class TCSTest extends TestCase
                 'data' => ['nama', 'nis', 'tanggal', 'waktu', 'status'],
             ]);
 
-        Mail::assertSent(AttendanceNotification::class);
+        Mail::assertQueued(AttendanceNotification::class);
     }
 
-    /**
-     * @test
-     * Test Case ID: TCS-002 (Duplicate Scan)
-     */
+    #[Test]
     public function test_TCS002_duplicate_scan_same_day(): void
     {
         Mail::fake();
@@ -68,13 +65,10 @@ class TCSTest extends TestCase
                 'message' => 'Siswa '.$siswa->nama.' sudah melakukan presensi hari ini.',
             ]);
 
-        Mail::assertNothingSent();
+        Mail::assertNothingQueued();
     }
 
-    /**
-     * @test
-     * Test Case ID: TCS-003 (Invalid QR Code)
-     */
+    #[Test]
     public function test_TCS003_invalid_qr_code(): void
     {
         $response = $this->postJson('/api/presensi', [
@@ -88,10 +82,7 @@ class TCSTest extends TestCase
             ]);
     }
 
-    /**
-     * @test
-     * Test Case ID: TCS-004 (Missing QR Parameter)
-     */
+    #[Test]
     public function test_TCS004_missing_qr_parameter(): void
     {
         $response = $this->postJson('/api/presensi', []);
@@ -100,10 +91,7 @@ class TCSTest extends TestCase
             ->assertJsonValidationErrors(['qr_code']);
     }
 
-    /**
-     * @test
-     * Test Case ID: TCS-005 (Empty Parent Email)
-     */
+    #[Test]
     public function test_TCS005_presence_with_empty_parent_email(): void
     {
         Mail::fake();
@@ -122,6 +110,6 @@ class TCSTest extends TestCase
         $this->assertDatabaseHas('presensi', ['siswa_id' => $siswa->id]);
         
         // Notification should not be sent or should fail gracefully (handled in logic usually)
-        Mail::assertNothingSent();
+        Mail::assertNothingQueued();
     }
 }

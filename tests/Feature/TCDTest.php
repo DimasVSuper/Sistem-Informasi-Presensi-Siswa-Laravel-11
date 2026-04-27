@@ -9,14 +9,13 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
+use PHPUnit\Framework\Attributes\Test;
+
 class TCDTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * @test
-     * Test Case ID: TCD-001 (Dashboard Statistics)
-     */
+    #[Test]
     public function test_TCD001_dashboard_displays_correct_statistics(): void
     {
         $user = User::factory()->create();
@@ -39,10 +38,7 @@ class TCDTest extends TestCase
         $response->assertSee('1'); // Total Kehadiran Hari Ini
     }
 
-    /**
-     * @test
-     * Test Case ID: TCD-002 (Student Creation)
-     */
+    #[Test]
     public function test_TCD002_authenticated_user_can_create_siswa(): void
     {
         $user = User::factory()->create();
@@ -62,10 +58,7 @@ class TCDTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * Test Case ID: TCD-002 (Student Update)
-     */
+    #[Test]
     public function test_TCD002_authenticated_user_can_update_siswa(): void
     {
         $user = User::factory()->create();
@@ -91,10 +84,7 @@ class TCDTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * Test Case ID: TCD-002 (Student Deletion)
-     */
+    #[Test]
     public function test_TCD002_authenticated_user_can_delete_siswa(): void
     {
         $user = User::factory()->create();
@@ -106,10 +96,7 @@ class TCDTest extends TestCase
         $this->assertDatabaseMissing('siswa', ['id' => $siswa->id]);
     }
 
-    /**
-     * @test
-     * Test Case ID: TCD-003 (Parent Creation)
-     */
+    #[Test]
     public function test_TCD003_pengguna_yang_terautentikasi_bisa_membuat_orang_tua(): void
     {
         $user = User::factory()->create();
@@ -126,10 +113,7 @@ class TCDTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * Test Case ID: TCD-003 (Parent Deletion)
-     */
+    #[Test]
     public function test_TCD003_Deletion_pengguna_yang_terautentikasi_bisa_menghapus_orang_tua(): void
     {
         $user = User::factory()->create();
@@ -141,10 +125,7 @@ class TCDTest extends TestCase
         $this->assertDatabaseMissing('orang_tua', ['id' => $orangTua->id]);
     }
 
-    /**
-     * @test
-     * Test Case ID: TCD-003 (Parent Update)
-     */
+    #[Test]
     public function test_TCD003_pengguna_yang_terautentikasi_bisa_mengupdate_orang_tua(): void
     {
         $user = User::factory()->create();
@@ -166,10 +147,7 @@ class TCDTest extends TestCase
         ]);
     }
 
-    /**
-     * @test
-     * Test Case ID: TCD-004 (Search Student)
-     */
+    #[Test]
     public function test_TCD004_search_siswa_filtering(): void
     {
         $user = User::factory()->create();
