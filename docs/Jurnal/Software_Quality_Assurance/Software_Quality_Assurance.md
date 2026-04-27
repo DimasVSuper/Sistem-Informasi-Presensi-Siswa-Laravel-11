@@ -1,71 +1,167 @@
-# Software Quality Assurance (SQA)
+# Jurnal Software Quality Assurance (SQA)
+## Sistem Informasi Presensi Siswa Berbasis PWA (PresensiGo)
 
-## 1. Tujuan
+---
 
-Dokumen SQA ini menjelaskan strategi pengujian dan kualitas untuk Sistem Presensi Siswa berbasis Progressive Web App dengan QR Code dan notifikasi real-time. Ini mencakup rencana pengujian, test case, bug report, serta ringkasan uji performa dan keamanan.
+### Daftar Isi
+- [BAB I: PENDAHULUAN](#bab-i-pendahuluan)
+    - [A. Latar Belakang](#a-latar-belakang)
+    - [B. Tujuan](#b-tujuan)
+    - [C. Ruang Lingkup](#c-ruang-lingkup)
+    - [D. Metodologi](#d-metodologi)
+- [BAB II: SOFTWARE TESTING LIFE CYCLE (STLC)](#bab-ii-software-testing-life-cycle-stlc)
+    - [A. Requirement Gathering](#a-requirement-gathering)
+    - [B. Test Planning](#b-test-planning)
+    - [C. Test Case Development](#c-test-case-development)
+    - [D. Set Up the Test Environment](#d-set-up-the-test-environment)
+    - [E. Test Case Execution](#e-test-case-execution)
+    - [F. Test Cycle Closure](#f-test-cycle-closure)
+- [BAB III: PENUTUP](#bab-iii-penutup)
+    - [A. Kesimpulan](#a-kesimpulan)
+    - [B. Saran](#b-saran)
 
-## 2. Test Plan
+---
 
-### 2.1. Ruang Lingkup
-- Validasi input QR Code dan endpoint API presensi.
-- Pencatatan presensi siswa pada tanggal yang tepat.
-- Penolakan presensi ganda dalam satu hari.
-- Pengiriman notifikasi email ke orang tua.
-- Fungsi PWA seperti manifest, service worker, dan tampilan scan.
-- Keamanan akses dashboard admin.
+## BAB I: PENDAHULUAN
 
-### 2.2. Metode Pengujian
-- Unit testing untuk model dan logika inti.
-- Feature testing untuk API endpoints dan alur pengguna.
-- Manual testing untuk PWA dan email notifikasi.
-- Regression testing setelah perbaikan bug.
+### A. Latar Belakang
+Perkembangan teknologi informasi yang pesat telah memberikan dampak signifikan terhadap berbagai aspek kehidupan, termasuk bidang pendidikan. Salah satu bentuk penerapan teknologi di lingkungan sekolah adalah sistem presensi siswa yang terintegrasi secara digital. Metode presensi konvensional yang masih menggunakan tanda tangan atau pencatatan manual sering kali menimbulkan permasalahan seperti keterlambatan rekap data, potensi manipulasi kehadiran, serta kurangnya transparansi antara pihak sekolah dan orang tua.
 
-### 2.3. Alat dan Lingkungan
-- PHPUnit untuk unit dan feature tests.
-- Laravel test environment dengan `RefreshDatabase`.
-- Browser manual untuk menguji halaman PWA dan scan QR.
-- SMTP lokal atau mail trap untuk menguji pengiriman email.
+Untuk menjawab tantangan tersebut, dikembangkan **PresensiGo**, sebuah sistem presensi siswa berbasis *Progressive Web Apps* (PWA) yang memungkinkan siswa melakukan absensi melalui pemindaian QR Code. Data kehadiran langsung tersimpan di server dan notifikasi dikirim secara *real-time* kepada orang tua melalui email. Dalam konteks pengembangan perangkat lunak, penerapan *Software Quality Assurance* (SQA) menjadi sangat krusial untuk memastikan sistem berjalan sesuai kebutuhan pengguna, bebas dari kesalahan (*bug*), dan memiliki kualitas yang terukur.
 
-## 3. Test Case
+### B. Tujuan
+Proyek ini bertujuan untuk memahami dan menerapkan proses SQA dalam pengujian sistem presensi siswa berbasis PWA secara sistematis. Secara khusus, tujuannya meliputi:
+1. **Menjamin Kualitas**: Melalui tahapan pengujian yang terstruktur sesuai standar industri.
+2. **Validasi Fungsional**: Memastikan fitur login, presensi, dan pelaporan berfungsi sesuai kebutuhan (siswa, guru, orang tua).
+3. **Bug Tracking**: Mengidentifikasi dan memperbaiki kesalahan selama siklus pengembangan.
+4. **Reliability**: Meningkatkan keandalan sistem dalam pengiriman notifikasi *real-time*.
+5. **Standarisasi**: Menerapkan prinsip *Software Testing Life Cycle* (STLC).
 
-Daftar pengujian fungsionalitas sistem dibagi menjadi beberapa modul utama untuk memudahkan pelacakan:
+### C. Ruang Lingkup
+Ruang lingkup pengujian dibagi menjadi dua kategori utama untuk memastikan aspek fungsionalitas dan kualitas sistem terjaga dengan baik.
 
-- [TCL - Authentication (Login)](TCL.md)
-- [TCS - Presence Scan (API & QR)](TCS.md)
-- [TCD - Dashboard & Management](TCD.md)
-- [TCP - Progressive Web App (PWA)](TCP.md)
+#### 1. Ruang Lingkup Fungsional
+Berfokus pada fitur-fitur utama yang harus tersedia agar aplikasi dapat digunakan sesuai kebutuhan bisnis.
 
-## 4. Bug Report (Contoh Templat)
+**Tabel 1.1: Kebutuhan Fungsional**
+| No | Kode | Kebutuhan Fungsional | Deskripsi |
+|:---|:---|:---|:---|
+| 1 | F-01 | Login User | Sistem memungkinkan pengguna login dengan username dan password. |
+| 2 | F-02 | Presensi QR Code | Siswa melakukan presensi dengan memindai QR Code unik. |
+| 3 | F-03 | Validasi Identitas | Sistem memverifikasi identitas siswa sebelum data presensi dikirim. |
+| 4 | F-04 | Pengiriman Data | Data presensi dikirim ke server secara otomatis setelah scan QR. |
+| 5 | F-05 | Penyimpanan Data | Server menyimpan data ke database MySQL dengan integritas terjaga. |
+| 6 | F-06 | Notifikasi Orang Tua | Sistem mengirim notifikasi ke email orang tua secara real-time. |
+| 7 | F-07 | Laporan Kehadiran | Sistem menghasilkan laporan rekap kehadiran siswa untuk pihak sekolah. |
 
-### Bug-001
-- Deskripsi: QR Code valid tidak diproses saat data siswa tidak ditemukan.
-- Status: Fixed.
-- Tindakan: Perbaikan pada SiswaController untuk handle null student.
+#### 2. Ruang Lingkup Non-Fungsional
+Berfokus pada karakteristik kualitas yang memengaruhi performa dan pengalaman pengguna.
 
-### Bug-002
-- Deskripsi: Pencarian siswa tidak memfilter data.
-- Status: Fixed.
-- Tindakan: Implementasi query search pada `SiswaController@index`.
+**Tabel 1.2: Kebutuhan Non-Fungsional**
+| No | Kode | Kategori | Deskripsi |
+|:---|:---|:---|:---|
+| 1 | NF-01 | Performance | Sistem harus merespon pemindaian QR dalam waktu kurang dari 3 detik. |
+| 2 | NF-02 | Security | Password login dienkripsi, data dikirim melalui protokol aman (HTTPS). |
+| 3 | NF-03 | Usability | Antarmuka aplikasi harus intuitif dan ramah pengguna (Responsive Design). |
+| 4 | NF-04 | Reliability | Sistem stabil meskipun digunakan oleh banyak siswa secara bersamaan. |
+| 5 | NF-05 | Compatibility | Aplikasi PWA berjalan di berbagai perangkat (Android, iOS) dan browser utama. |
+| 6 | NF-06 | Maintainability | Kode program mengikuti standar PSR (Laravel Pint) untuk kemudahan pemeliharaan. |
+| 7 | NF-07 | Scalability | Mampu menangani peningkatan jumlah pengguna tanpa penurunan performa signifikan. |
 
-## 5. Hasil Uji Performa dan Keamanan
+### D. Metodologi
+Metodologi pengujian mengikuti tahapan **Software Testing Life Cycle (STLC)**. Berikut adalah alur kerja pengujian:
 
-### 5.1. Performa
-- Endpoint `POST /api/presensi` dioptimalkan dengan query sederhana.
-- PWA menggunakan service worker untuk offline caching.
+```mermaid
+graph TD
+    A[Requirement Gathering] --> B[Test Planning]
+    B --> C[Test Case Development]
+    C --> D[Environment Setup]
+    D --> E[Test Execution]
+    E --> F[Test Cycle Closure]
+```
 
-### 5.2. Keamanan
-- Proteksi route dengan middleware `auth`.
-- Validasi email orang tua menjadi nullable untuk fleksibilitas data.
+---
 
-## 6. Pemetaan Pengujian Otomatis (Feature Test)
+## BAB II: SOFTWARE TESTING LIFE CYCLE (STLC)
 
-| Modul | Dokumentasi | Feature Test (tests/Feature/) |
-| :--- | :--- | :--- |
-| **Authentication** | [TCL.md](TCL.md) | `TCLTest.php` |
-| **Presence Scan** | [TCS.md](TCS.md) | `TCSTest.php` |
-| **Management** | [TCD.md](TCD.md) | `TCDTest.php` |
-| **PWA Check** | [TCP.md](TCP.md) | `TCPTest.php` |
+### A. Requirement Gathering
+Tim QA melakukan analisis terhadap dokumen kebutuhan dan melakukan sinkronisasi dengan tim pengembang untuk memastikan tidak ada celah antara spesifikasi dan implementasi.
+- **Output**: Matriks penelusuran kebutuhan (Traceability Matrix) yang memetakan fitur ke skenario uji.
 
-## 7. Kesimpulan
+### B. Test Planning
+Penyusunan strategi pengujian yang mencakup jadwal, sumber daya, dan alat yang digunakan.
+- **Alat Utama**: PHPUnit (Laravel Feature Testing), Mockery, dan Faker.
+- **Strategi**: *Automated Testing* untuk fitur kritis dan *Manual Testing* untuk aspek UI/UX.
 
-Sistem telah didesain dengan pendekatan quality assurance yang mencakup pengujian fungsional, validasi keamanan, dan pemeriksaan kelayakan PWA. Dokumentasi ini menjadi pedoman agar setiap perubahan kode tetap terkontrol dan kualitas aplikasi tetap terjaga.
+**Tabel 2.1: Komponen Rencana Pengujian**
+| Komponen | Deskripsi |
+|:---|:---|
+| Scope | Fungsionalitas inti (Login, Scan, Notifikasi) dan PWA Manifest. |
+| Schedule | Dilakukan secara berkelanjutan (Continuous Testing) selama masa pengembangan. |
+| Resources | Tim QA dan Lingkungan CI/CD. |
+| Environment | Database SQLite (:memory:) untuk kecepatan eksekusi tes. |
+| Risk | Kegagalan integrasi mail server (dimitigasi dengan `Mail::fake()`). |
+
+### C. Test Case Development
+Skenario uji disusun untuk memvalidasi setiap fitur. Berikut adalah daftar Test Case yang diimplementasikan:
+
+#### 1. Authentication (TCL)
+| ID | Kasus Uji | Hasil yang Diharapkan |
+|:---|:---|:---|
+| TCL-001 | Success Login | Redirect ke dashboard saat kredensial valid. |
+| TCL-002 | Invalid Credentials | Pesan error muncul saat password salah. |
+| TCL-003 | Security Check | Mencegah akses ke dashboard tanpa login. |
+
+#### 2. Presence Scan API (TCS)
+| ID | Kasus Uji | Hasil yang Diharapkan |
+|:---|:---|:---|
+| TCS-001 | Success Scan | Data tersimpan & email notifikasi terkirim. |
+| TCS-002 | Duplicate Scan | Menolak absensi kedua di hari yang sama untuk siswa yang sama. |
+| TCS-003 | Invalid QR Code | Mengembalikan status 404 jika QR tidak terdaftar. |
+
+#### 3. Dashboard & Management (TCD)
+| ID | Kasus Uji | Hasil yang Diharapkan |
+|:---|:---|:---|
+| TCD-001 | Student CRUD | Admin dapat menambah/edit/hapus data siswa. |
+| TCD-002 | Statistics | Menampilkan jumlah kehadiran harian secara akurat. |
+
+#### 4. Progressive Web App (TCP)
+| ID | Kasus Uji | Hasil yang Diharapkan |
+|:---|:---|:---|
+| TCP-001 | PWA Assets | File `manifest.json` dan `sw.js` terdeteksi oleh browser. |
+
+### D. Set Up the Test Environment
+Lingkungan pengujian diisolasi untuk memastikan hasil yang konsisten:
+- **Database**: Menggunakan `RefreshDatabase` trait untuk reset state setiap kali tes berjalan.
+- **Mail**: Menggunakan `Mail::fake()` untuk memverifikasi logika tanpa mengirim email fisik.
+- **Tools**: Laravel Pint untuk standarisasi kode dan PHPUnit untuk eksekusi skrip.
+
+### E. Test Case Execution
+Eksekusi dilakukan melalui terminal dengan perintah:
+```powershell
+php artisan test --compact
+```
+Pengujian mencakup:
+- **Status Code Assertion**: Memastikan respons HTTP (200, 302, 422).
+- **Database Assertion**: Memastikan data tersimpan via `assertDatabaseHas`.
+- **Validation Assertion**: Memastikan pesan error muncul saat input tidak valid.
+
+### F. Test Cycle Closure
+Setelah semua tes dinyatakan **PASS**, langkah terakhir meliputi:
+1. **Analisis Defect**: Mencatat bug yang ditemukan (misalnya: penanganan query pencarian yang lambat).
+2. **Regression Testing**: Menjalankan seluruh *test suite* untuk memastikan tidak ada fitur lama yang rusak.
+3. **Approval**: Menyatakan sistem siap untuk tahap *Deployment*.
+
+---
+
+## BAB III: PENUTUP
+
+### A. Kesimpulan
+1. **Standarisasi**: Sistem PresensiGo telah melalui tahap pengujian otomatis yang ketat menggunakan standar Laravel.
+2. **Integritas Data**: Fitur pencegahan duplikasi kehadiran berfungsi 100% berdasarkan hasil unit testing.
+3. **Kesiapan PWA**: Aset PWA telah divalidasi dan siap untuk instalasi lintas platform.
+
+### B. Saran
+1. **Stress Testing**: Menambahkan simulasi beban tinggi (Load Testing) jika pengguna bertambah drastis.
+2. **E2E Testing**: Menggunakan Laravel Dusk untuk menguji fungsionalitas kamera/scanner secara visual.
+3. **Security Patching**: Melakukan audit keamanan berkala terhadap API endpoint presensi.

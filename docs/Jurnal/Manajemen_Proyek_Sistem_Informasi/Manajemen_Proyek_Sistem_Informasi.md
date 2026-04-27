@@ -1,133 +1,131 @@
-# Manajemen Proyek Sistem Informasi
+# Jurnal Manajemen Proyek Sistem Informasi
+## Tata Kelola Pengembangan Sistem "PresensiGo"
 
-## 1. Project Charter
+---
 
-### Judul Proyek
-Pengembangan Sistem Presensi Siswa Berbasis Progressive Web App dengan QR Code dan Notifikasi Real-Time.
+### KATA PENGANTAR
 
-### Latar Belakang
-Sekolah membutuhkan sistem presensi digital yang cepat, akurat, dan dapat terintegrasi dengan notifikasi kepada orang tua. PWA digunakan agar aplikasi dapat diakses di perangkat mobile dan desktop, sementara QR Code mempercepat proses absensi siswa.
+Puji syukur kami panjatkan ke hadirat Tuhan Yang Maha Esa atas terselesaikannya dokumen **Manajemen Proyek Sistem Informasi** untuk pengembangan aplikasi **PresensiGo**. Dokumen ini disusun sebagai panduan strategis yang mencakup perencanaan, pengorganisasian, pemantauan, hingga evaluasi risiko proyek.
 
-### Tujuan Proyek
-- Membangun sistem presensi siswa berbasis web yang responsif dan dapat diinstal sebagai PWA.
-- Mengelola data siswa, orang tua, dan presensi dengan aman.
-- Menghasilkan notifikasi email otomatis ke orang tua saat siswa melakukan presensi.
-- Mengurangi kesalahan manual dalam pencatatan kehadiran.
+Efisiensi manajemen proyek menjadi kunci keberhasilan dalam mentransformasi sistem presensi manual menjadi digital yang terintegrasi, akurat, dan transparan.
 
-### Lingkup Proyek
-- Halaman scan QR Code untuk presensi.
-- Manajemen data siswa dan orang tua melalui dashboard admin.
-- API backend untuk memproses scanner dan menyimpan presensi.
-- Fitur PWA dengan manifest dan service worker.
-- Sistem notifikasi email ke orang tua.
+---
 
-### Tim Proyek
-- Faqi — Project Manager
-- Dimas — Fullstack Developer
-- Shava — System Analyst
-- Vina — Technical Writer
-- Jamila — Technical Writer
-- Maria — Quality Assurance
+### DAFTAR ISI
+1. [**BAB I: PROJECT CHARTER**](#bab-i-project-charter)
+    - [1.1. Identitas Proyek](#11-identitas-proyek)
+    - [1.2. Deskripsi & Latar Belakang](#12-deskripsi--latar-belakang)
+    - [1.3. Tujuan & Faktor Keberhasilan](#13-tujuan--faktor-keberhasilan)
+    - [1.4. Teknologi yang Digunakan](#14-teknologi-yang-digunakan)
+2. [**BAB II: PERENCANAAN PROYEK**](#bab-ii-perencanaan-proyek)
+    - [2.1. Work Breakdown Structure (WBS)](#21-work-breakdown-structure-wbs)
+    - [2.2. Jadwal Aktivitas (Gantt Chart)](#22-jadwal-aktivitas-gantt-chart)
+    - [2.3. Alokasi Sumber Daya (Tim)](#23-alokasi-sumber-daya-tim)
+3. [**BAB III: ANALISIS RISIKO & MANFAAT**](#bab-iii-analisis-risiko--manfaat)
+    - [3.1. Manajemen Risiko & Mitigasi](#31-manajemen-risiko--mitigasi)
+    - [3.2. Estimasi Manfaat (Benefit Analysis)](#32-estimasi-manfaat-benefit-analysis)
+    - [3.3. Batasan & Asumsi](#33-batasan--asumsi)
+4. [**BAB IV: PENUTUP**](#bab-iv-penutup)
+    - [4.1. Kesimpulan](#41-kesimpulan)
 
-### Pemangku Kepentingan
-- Sekolah sebagai pengguna utama.
-- Orang tua siswa sebagai penerima notifikasi.
-- Admin sekolah sebagai pengelola data.
+---
 
-### Waktu dan Anggaran
-- Durasi estimasi: 6 minggu.
-- Anggaran fokus pada pengembangan perangkat lunak, pengujian, dan dokumentasi.
+## BAB I: PROJECT CHARTER
 
-## 2. Work Breakdown Structure (WBS)
+### 1.1. Identitas Proyek
+| Kategori | Keterangan |
+|:---|:---|
+| **Nama Proyek** | Pemodelan Proses Bisnis Presensi Siswa Menggunakan QR Code dan PWA dengan Notifikasi Real-Time |
+| **Sponsor Proyek** | Bibit Sudarsono, M.Kom |
+| **Manajer Proyek** | Al Faqi Ramadhan |
+| **Unit Organisasi** | Bidang Akademik / Sekolah |
+| **Durasi Proyek** | 21 April 2026 – 31 Mei 2026 |
 
-### 2.1. Inisiasi
-- Menentukan ruang lingkup proyek.
-- Analisis kebutuhan pengguna.
-- Penyusunan tim dan peran.
+### 1.2. Deskripsi & Latar Belakang
+Sistem presensi manual berbasis kertas memiliki kelemahan signifikan seperti pemborosan waktu, risiko kehilangan data, dan manipulasi kehadiran. **PresensiGo** dikembangkan untuk mendigitalkan proses ini menggunakan *Progressive Web App* (PWA) dan *QR Code* untuk efisiensi maksimal.
 
-### 2.2. Perancangan Sistem
-- Membuat UML, ERD, dan DFD.
-- Merancang arsitektur sistem frontend dan backend.
-- Menyusun dokumentasi desain.
+### 1.3. Tujuan & Faktor Keberhasilan
+**Tujuan Proyek**:
+1. Membangun platform presensi berbasis PWA yang responsif.
+2. Mengotomatisasi pengiriman notifikasi email ke orang tua secara *real-time*.
+3. Menyediakan dashboard monitoring kehadiran bagi guru dan admin.
 
-### 2.3. Pengembangan
-- Membangun model database dan migrasi.
-- Mengembangkan backend Laravel.
-- Mengembangkan frontend PWA dan halaman scan.
-- Mengintegrasikan notifikasi email.
+**Faktor Keberhasilan**:
+- Kedisiplinan tim dalam mengikuti *timeline* proyek.
+- Ketersediaan infrastruktur jaringan yang stabil.
+- Dokumentasi teknis yang terstruktur (SQA, Perancangan, Permodelan).
 
-### 2.4. Pengujian
-- Menyusun test case dan skenario.
-- Melakukan unit test dan feature test.
-- Validasi alur presensi dan notifikasi.
+### 1.4. Teknologi yang Digunakan
+- **Framework**: Laravel 11 (Backend & API).
+- **Frontend**: Blade Engine, Tailwind CSS, Vite.
+- **Database**: MySQL (Production) / SQLite (Testing).
+- **Environment**: Laragon (Local), Windows Server (Deployment).
 
-### 2.5. Dokumentasi dan Pelatihan
-- Menyusun dokumentasi pengguna dan teknis.
-- Menyusun laporan SQA.
-- Menyiapkan materi presentasi.
+---
 
-### 2.6. Penyerahan
-- Review akhir sistem.
-- Perbaikan bug dan penyempurnaan.
-- Serah terima sistem ke pihak sekolah.
+## BAB II: PERENCANAAN PROYEK
 
-## 3. Gantt Chart (Ringkasan)
+### 2.1. Work Breakdown Structure (WBS)
+Proyek dibagi menjadi 4 fase utama:
+1. **Fase Inisiasi**: Analisis kebutuhan, penentuan tim, dan penyusunan Project Charter.
+2. **Fase Perencanaan**: Desain arsitektur sistem, ERD, UML, dan UI/UX mockup.
+3. **Fase Eksekusi**: Pengembangan backend Laravel, integrasi PWA, dan sistem notifikasi.
+4. **Fase Penutupan**: Pengujian (QA), dokumentasi akhir, dan evaluasi hasil.
 
-| Tahap | Minggu 1 | Minggu 2 | Minggu 3 | Minggu 4 | Minggu 5 | Minggu 6 |
-|---|---|---|---|---|---|---|
-| Inisiasi & Analisis | x | x | | | | |
-| Perancangan Sistem | | x | x | | | |
-| Pengembangan Backend | | | x | x | | |
-| Pengembangan Frontend | | | x | x | x | |
-| Integrasi & Notifikasi | | | | x | x | |
-| Pengujian & Perbaikan | | | | | x | x |
-| Dokumentasi & Serah Terima | | | | | x | x |
+### 2.2. Jadwal Aktivitas (Gantt Chart)
+```mermaid
+gantt
+    title Jadwal Implementasi PresensiGo
+    dateFormat  YYYY-MM-DD
+    section Inisiasi
+    Analisis Kebutuhan       :2026-04-21, 7d
+    section Perencanaan
+    Desain Sistem & UI/UX    :2026-04-28, 7d
+    section Eksekusi
+    Development Backend      :2026-05-05, 14d
+    Integrasi PWA & Mail     :2026-05-12, 7d
+    section Penutupan
+    Testing & Bug Fixing     :2026-05-19, 7d
+    Final Documentation      :2026-05-26, 5d
+```
 
-> Catatan: Gantt chart ini bersifat ringkasan. Detil tugas mingguan dapat dilengkapi sesuai kebutuhan proyek.
+### 2.3. Alokasi Sumber Daya (Tim)
+| Nama | Peran | Tanggung Jawab Utama |
+|:---|:---|:---|
+| **Al Faqi Ramadhan** | Project Manager | Koordinasi tim, monitoring jadwal, dan pelaporan. |
+| **Siti Jamilah Safitri** | System Analyst | Analisis kebutuhan bisnis dan pemodelan proses. |
+| **Dimas Bayu Nugroho** | Developer | Pengembangan backend, frontend, dan integrasi PWA. |
+| **Arvina Nirma Y.T.** | UI/UX Designer | Desain antarmuka aplikasi yang intuitif. |
+| **Maria Asna Yati B.** | UI/UX Designer | Mockup dashboard dan alur navigasi. |
+| **Shava** | Quality Assurance | Pengujian sistem (Blackbox) dan pelaporan bug. |
 
-## 4. Manajemen Risiko
+---
 
-### 4.1. Risiko Utama
-- Keterlambatan pengembangan fitur.
-- Bug pada workflow presensi dan notifikasi.
-- Kegagalan penerimaan email oleh orang tua.
-- Masalah kompatibilitas PWA pada perangkat tertentu.
-- Ketergantungan pada koneksi internet.
+## BAB III: ANALISIS RISIKO & MANFAAT
 
-### 4.2. Strategi Mitigasi
-- Membagi pekerjaan menjadi modul kecil dan prioritas.
-- Melakukan pengujian unit dan integrasi secara teratur.
-- Menggunakan logging dan monitoring error.
-- Menyediakan fallback pesan kesalahan jika email gagal.
-- Menjamin caching dan fallback dasar melalui service worker.
+### 3.1. Manajemen Risiko & Mitigasi
+| Risiko | Dampak | Strategi Mitigasi |
+|:---|:---|:---|
+| Koneksi internet tidak stabil | Absensi gagal terkirim | Implementasi *Offline Mode* pada PWA. |
+| QR Code sulit dipindai | Hambatan proses masuk | Menggunakan library scanner yang mendukung *auto-focus*. |
+| Kegagalan Notifikasi Email | Orang tua tidak terinformasi | Menggunakan antrean email (*Queue*) agar bisa dikirim ulang. |
 
-### 4.3. Risiko Kualitas
-- Validasi format QR Code dan input form.
-- Akurasi pencatatan absensi per hari.
-- Keamanan akses dashboard admin.
-- Konsistensi data siswa dan orang tua.
+### 3.2. Estimasi Manfaat (Benefit Analysis)
+- **Efisiensi Waktu**: Pengurangan waktu absensi hingga **±50%** dibandingkan metode manual.
+- **Paperless**: Pengurangan penggunaan kertas hingga **±80%**.
+- **Akurasi**: Eliminasi kesalahan pencatatan dan manipulasi kehadiran ("titip absen").
+- **Real-time Monitoring**: Kepastian kehadiran siswa diketahui secara instan oleh pihak sekolah dan wali murid.
 
-## 5. Resource Allocation
+### 3.3. Batasan & Asumsi
+- **Batasan**: Fokus pada sistem presensi, tidak mencakup penilaian akademik atau keuangan sekolah.
+- **Asumsi**: Pengguna (siswa/guru) memiliki perangkat mobile yang mendukung pemindaian QR Code.
 
-### 5.1. Peran Tim
-- Project Manager (Faqi): perencanaan, pengawasan jadwal, koordinasi tim.
-- Fullstack Developer (Dimas): pengembangan backend dan frontend.
-- System Analyst (Shava): analisis kebutuhan, pemodelan proses bisnis, desain sistem.
-- Technical Writer (Vina & Jamila): dokumentasi teknis, laporan, dan manual.
-- Quality Assurance (Maria): pengujian, review kualitas, dan bug tracking.
+---
 
-### 5.2. Sumber Daya Teknis
-- Framework backend: Laravel 11.
-- Frontend PWA: Blade + VueJS CDN + Tailwind + Vite.
-- Database: MySQL atau database relasional serupa.
-- Infrastruktur email: konfigurasi mail driver SMTP atau layanan pihak ketiga.
+## BAB IV: PENUTUP
 
-### 5.3. Kebutuhan Waktu
-- Analisis & desain: 1–2 minggu.
-- Pengembangan: 2–3 minggu.
-- Pengujian & dokumentasi: 1–2 minggu.
+### 4.1. Kesimpulan
+Manajemen proyek yang terstruktur memastikan bahwa pengembangan **PresensiGo** berjalan sesuai target dan standar kualitas. Dengan kolaborasi tim yang solid dan mitigasi risiko yang tepat, sistem ini siap memberikan nilai tambah bagi digitalisasi ekosistem sekolah.
 
-## 6. Penutup
-
-Dokumen manajemen proyek ini membantu memastikan proses pengembangan sistem presensi siswa berjalan terstruktur, terkontrol, dan sesuai tujuan. Dengan pembagian peran yang jelas dan manajemen risiko yang tepat, proyek dapat diselesaikan dengan kualitas yang baik.
-
+---
+*Terakhir diperbarui: 28 April 2026*
