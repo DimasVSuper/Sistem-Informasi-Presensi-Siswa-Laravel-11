@@ -131,10 +131,17 @@ Skenario uji disusun untuk memvalidasi setiap fitur. Berikut adalah daftar Test 
 | TCP-001 | PWA Assets | File `manifest.json` dan `sw.js` terdeteksi oleh browser. |
 
 ### D. Set Up the Test Environment
-Lingkungan pengujian diisolasi untuk memastikan hasil yang konsisten:
+Lingkungan pengujian diisolasi untuk memastikan hasil yang konsisten sambil tetap menggunakan stack lokal yang sama dengan pengembangan.
 - **Database**: Menggunakan `RefreshDatabase` trait untuk reset state setiap kali tes berjalan.
-- **Mail**: Menggunakan `Mail::fake()` untuk memverifikasi logika tanpa mengirim email fisik.
-- **Tools**: Laravel Pint untuk standarisasi kode dan PHPUnit untuk eksekusi skrip.
+- **Database Engine**: Menggunakan MySQL lokal yang dikonfigurasi di Laragon, bukan SQLite, untuk menyesuaikan dengan lingkungan produksi.
+- **Local Server**: Menjalankan aplikasi pada Apache via Laragon untuk memastikan konfigurasi virtual host dan PHP berjalan sesuai.
+- **Ngrok**: Menggunakan ngrok saat perlu menguji webhook atau akses eksternal ke aplikasi lokal.
+- **Mail**: Menggunakan `Mail::fake()` untuk memverifikasi logika pengiriman email notifikasi tanpa mengirim email fisik.
+- **Queue**: Menggunakan driver `sync` pada environment pengujian agar job berjalan secara langsung selama eksekusi tes.
+- **Cache**: Menggunakan driver `array` agar cache hanya aktif pada runtime tes dan tidak persisten antar sesi.
+- **Environment Variables**: Mengatur `APP_ENV=testing`, `MAIL_MAILER=array`, dan `QUEUE_CONNECTION=sync` di `.env.testing` atau konfigurasi pengujian.
+- **Browser / PWA**: Verifikasi aset PWA menggunakan browser pengembang (Chrome/Edge) dan memastikan `manifest.json`, `sw.js`, serta service worker dapat diakses saat aplikasi berjalan.
+- **Tools**: Laravel Pint untuk standarisasi kode, PHPUnit untuk eksekusi skrip, serta `php artisan test --compact` untuk hasil ringkas.
 
 ### E. Test Case Execution
 Eksekusi dilakukan melalui terminal dengan perintah:
