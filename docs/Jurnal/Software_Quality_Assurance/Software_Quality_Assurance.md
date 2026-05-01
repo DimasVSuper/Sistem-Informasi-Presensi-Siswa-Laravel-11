@@ -140,6 +140,7 @@ Skenario uji disusun untuk memvalidasi setiap fitur. Berikut adalah daftar Test 
 | TSS-003 | POST `/api/presensi` dengan payload invalid/malicious | Respons `422` atau `404`, tanpa bocoran informasi internal. |
 | TSS-004 | Audit dependensi | `composer audit` tanpa kerentanan, `npm audit` dicatat gagal pada registry mirror. |
 
+
 ### D. Set Up the Test Environment
 Lingkungan pengujian diisolasi untuk memastikan hasil yang konsisten sambil tetap menggunakan stack lokal yang sama dengan pengembangan.
 - **Database**: Menggunakan `RefreshDatabase` trait untuk reset state setiap kali tes berjalan.
