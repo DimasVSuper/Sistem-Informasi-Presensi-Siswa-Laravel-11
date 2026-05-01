@@ -90,8 +90,10 @@ Tim QA melakukan analisis terhadap dokumen kebutuhan dan melakukan sinkronisasi 
 
 ### B. Test Planning
 Penyusunan strategi pengujian yang mencakup jadwal, sumber daya, dan alat yang digunakan.
-- **Alat Utama**: PHPUnit (Laravel Feature Testing), Mockery, dan Faker.
-- **Strategi**: *Automated Testing* untuk fitur kritis dan *Manual Testing* untuk aspek UI/UX.
+- **Alat Utama**: PHPUnit (Laravel Feature Testing), Mockery, Faker, dan Postman.
+- **Strategi**: *Automated Testing* untuk fitur kritis dan *Manual Testing* untuk aspek UI/UX serta eksplorasi keamanan.
+- **Durasi**: Pengujian direncanakan selama 2 minggu dengan alokasi tugas harian.
+- **Tim**: 2 penguji, 1 manajer proyek, dukungan infrastruktur lokal.
 
 **Tabel 2.1: Komponen Rencana Pengujian**
 | Komponen | Deskripsi |
@@ -99,7 +101,7 @@ Penyusunan strategi pengujian yang mencakup jadwal, sumber daya, dan alat yang d
 | Scope | Fungsionalitas inti (Login, Scan, Notifikasi) dan PWA Manifest. |
 | Schedule | Dilakukan secara berkelanjutan (Continuous Testing) selama masa pengembangan. |
 | Resources | Tim QA dan Lingkungan CI/CD. |
-| Environment | Database MySQL lokal via Laragon dengan state reset menggunakan `RefreshDatabase`. |
+| Environment | Database SQLite (:memory:) untuk kecepatan eksekusi tes. |
 | Risk | Kegagalan integrasi mail server (dimitigasi dengan `Mail::fake()`). |
 
 ### C. Test Case Development
@@ -130,6 +132,14 @@ Skenario uji disusun untuk memvalidasi setiap fitur. Berikut adalah daftar Test 
 |:---|:---|:---|
 | TCP-001 | PWA Assets | File `manifest.json` dan `sw.js` terdeteksi oleh browser. |
 
+#### 5. Security Testing (TSS)
+| ID | Kasus Uji | Hasil yang Diharapkan |
+|:---|:---|:---|
+| TSS-001 | Akses dashboard tanpa login | Sistem mengalihkan guest ke halaman login dan tidak menampilkan data dashboard. |
+| TSS-002 | POST `/api/presensi` tanpa `qr_code` | Respons `422` dengan pesan validasi yang jelas. |
+| TSS-003 | POST `/api/presensi` dengan payload invalid/malicious | Respons `422` atau `404`, tanpa bocoran informasi internal. |
+| TSS-004 | Audit dependensi | `composer audit` tanpa kerentanan, `npm audit` dicatat gagal pada registry mirror. |
+
 ### D. Set Up the Test Environment
 Lingkungan pengujian diisolasi untuk memastikan hasil yang konsisten sambil tetap menggunakan stack lokal yang sama dengan pengembangan.
 - **Database**: Menggunakan `RefreshDatabase` trait untuk reset state setiap kali tes berjalan.
@@ -153,6 +163,38 @@ Pengujian mencakup:
 - **Database Assertion**: Memastikan data tersimpan via `assertDatabaseHas`.
 - **Validation Assertion**: Memastikan pesan error muncul saat input tidak valid.
 
+### E.1. Performance Testing dengan K6
+Selain pengujian fungsional, dilakukan load test menggunakan `k6` pada skrip `tests/K6/presensi.js`.
+- Target skenario: hingga 50 Virtual Users (VUs) selama 3 menit.
+- Hasil fungsional: semua respons valid (`201`, `409`, `404`, `422`) dan body JSON terverifikasi 100%.
+- Hasil performa: rata-rata latensi `2.62s`, `p(95)=5.34s`.
+- Threshold yang ditetapkan (`p(95)<3000` dan `avg<1200`) tidak tercapai.
+
+Kesimpulan performa:
+- Endpoint `/api/presensi` secara fungsional bekerja dengan benar.
+- Namun pada beban tinggi, respons masih relatif lambat terutama saat mencapai p95.
+- Perbaikan yang direkomendasikan meliputi: penggunaan antrean email asinkron, optimisasi query, dan caching di layer yang relevan.
+
+### E.2. Security Testing
+Security testing dilakukan sebagai bagian dari quality review untuk memastikan bahwa sistem PresensiGo aman dan siap digunakan.
+- **Penilaian akses**: memastikan route admin terlindungi, guest tidak bisa mengakses dashboard, dan logout menginvalidasi sesi.
+- **Validasi input**: `qr_code` divalidasi sebagai string yang required, serta API menolak payload yang tidak sesuai.
+- **Proteksi data**: password disimpan hashed oleh Laravel, dan konfigurasi sensitive tidak dikomit ke Git.
+- **Transport security**: sistem dirancang untuk menggunakan HTTPS di lingkungan produksi.
+- **Dependency audit**: `composer audit` dijalankan tanpa menemukan kerentanan.
+- **API testing dengan Postman**: Postman digunakan untuk mengirim payload negatif, menguji error response, dan memvalidasi header API.
+- **Security review**: pemeriksaan tambahan dilakukan untuk mencegah data sensitif ter-expose dan memastikan response API tidak mengandung informasi internal.
+
+Tools yang digunakan:
+- `PHPUnit` untuk pengujian validasi dan akses kontrol.
+- `Postman` untuk eksplorasi API dan uji keamanan manual.
+- `JMeter`/`k6` untuk performa dan kestabilan di bawah beban.
+- `composer audit` untuk memeriksa dependensi PHP.
+
+Catatan tambahan:
+- `npm audit` dicoba, namun endpoint audit registry mirror tidak tersedia di lingkungan saat ini, sehingga pemeriksaan dependency JavaScript direkomendasikan kembali setelah akses registry audit normal tersedia.
+- Berdasarkan hasil review saat ini, codebase dianggap aman dan tidak ditemukan masalah keamanan kritis.
+
 ### F. Test Cycle Closure
 Setelah semua tes dinyatakan **PASS**, langkah terakhir meliputi:
 1. **Analisis Defect**: Mencatat bug yang ditemukan (misalnya: penanganan query pencarian yang lambat).
@@ -167,6 +209,7 @@ Setelah semua tes dinyatakan **PASS**, langkah terakhir meliputi:
 1. **Standarisasi**: Sistem PresensiGo telah melalui tahap pengujian otomatis yang ketat menggunakan standar Laravel.
 2. **Integritas Data**: Fitur pencegahan duplikasi kehadiran berfungsi 100% berdasarkan hasil unit testing.
 3. **Kesiapan PWA**: Aset PWA telah divalidasi dan siap untuk instalasi lintas platform.
+4. **Hasil Load Testing**: Tes `k6` menunjukkan bahwa endpoint `/api/presensi` valid secara fungsional, tetapi belum memenuhi target performa untuk `p(95)<3s` saat beban tinggi.
 
 ### B. Saran
 1. **Stress Testing**: Menambahkan simulasi beban tinggi (Load Testing) jika pengguna bertambah drastis.
