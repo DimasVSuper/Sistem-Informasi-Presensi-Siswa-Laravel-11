@@ -99,7 +99,7 @@ Penyusunan strategi pengujian yang mencakup jadwal, sumber daya, dan alat yang d
 | Scope | Fungsionalitas inti (Login, Scan, Notifikasi) dan PWA Manifest. |
 | Schedule | Dilakukan secara berkelanjutan (Continuous Testing) selama masa pengembangan. |
 | Resources | Tim QA dan Lingkungan CI/CD. |
-| Environment | Database SQLite (:memory:) untuk kecepatan eksekusi tes. |
+| Environment | Database MySQL lokal via Laragon dengan state reset menggunakan `RefreshDatabase`. |
 | Risk | Kegagalan integrasi mail server (dimitigasi dengan `Mail::fake()`). |
 
 ### C. Test Case Development

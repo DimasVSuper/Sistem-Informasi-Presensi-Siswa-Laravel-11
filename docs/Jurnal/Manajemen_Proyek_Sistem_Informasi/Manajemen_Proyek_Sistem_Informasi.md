@@ -58,7 +58,7 @@ Sistem presensi manual berbasis kertas memiliki kelemahan signifikan seperti pem
 ### 1.4. Teknologi yang Digunakan
 - **Framework**: Laravel 11 (Backend & API).
 - **Frontend**: Blade Engine, Tailwind CSS, Vite.
-- **Database**: MySQL (Production) / SQLite (Testing).
+- **Database**: MySQL (lokal untuk development/testing dan production).
 - **Environment**: Laragon (Local), Windows Server (Deployment).
 
 ---
@@ -108,7 +108,7 @@ gantt
 |:---|:---|:---|
 | Koneksi internet tidak stabil | Absensi gagal terkirim | Implementasi *Offline Mode* pada PWA. |
 | QR Code sulit dipindai | Hambatan proses masuk | Menggunakan library scanner yang mendukung *auto-focus*. |
-| Kegagalan Notifikasi Email | Orang tua tidak terinformasi | Menggunakan antrean email (*Queue*) agar bisa dikirim ulang. |
+| Kegagalan Notifikasi Email | Orang tua tidak terinformasi | Memastikan pengiriman email langsung dari aplikasi dan menambah retry / log audit jika terjadi kegagalan. |
 
 ### 3.2. Estimasi Manfaat (Benefit Analysis)
 - **Efisiensi Waktu**: Pengurangan waktu absensi hingga **±50%** dibandingkan metode manual.

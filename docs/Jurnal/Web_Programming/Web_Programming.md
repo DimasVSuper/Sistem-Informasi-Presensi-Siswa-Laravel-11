@@ -72,7 +72,7 @@ Sistem informasi presensi adalah integrasi antara perangkat lunak, database, dan
 
 ### 3.2. Permasalahan Pokok & Pemecahan Masalah
 **Masalah**: Rekapitulasi lambat, rawan kecurangan titip absen, dan orang tua tidak terinformasi secara instan.
-**Solusi**: Membangun aplikasi **PresensiGo**. Siswa melakukan scan mandiri, data tersimpan otomatis di database cloud, dan sistem langsung mengirimkan notifikasi ke email orang tua.
+**Solusi**: Membangun aplikasi **PresensiGo**. Siswa melakukan scan mandiri, data tersimpan otomatis di database MySQL lokal, dan sistem langsung mengirimkan notifikasi ke email orang tua.
 
 ---
 
@@ -106,7 +106,7 @@ flowchart TD
 | `presensi` | siswa_id, tanggal, waktu, status (Log Transaksi) |
 
 ### 4.3. Implementasi Sistem
-Aplikasi diimplementasikan menggunakan **Laravel 11**. Logika utama berada pada `PresensiController` yang menangani validasi *unique QR*, pengecekan duplikasi harian, dan pemicu pengiriman email melalui *Mail Queue* Laravel untuk performa maksimal.
+Aplikasi diimplementasikan menggunakan **Laravel 11**. Logika utama berada pada `PresensiController` yang menangani validasi *unique QR*, pengecekan duplikasi harian, dan pengiriman email notifikasi langsung melalui `Mail` saat presensi berhasil dicatat.
 
 ---
 
