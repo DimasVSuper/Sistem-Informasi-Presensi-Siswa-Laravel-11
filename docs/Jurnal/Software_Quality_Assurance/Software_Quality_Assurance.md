@@ -132,13 +132,16 @@ Skenario uji disusun untuk memvalidasi setiap fitur. Berikut adalah daftar Test 
 |:---|:---|:---|
 | TCP-001 | PWA Assets | File `manifest.json` dan `sw.js` terdeteksi oleh browser. |
 
-#### 5. Security Testing (TSS)
+#### 5. Performance & Security (TCK)
 | ID | Kasus Uji | Hasil yang Diharapkan |
 |:---|:---|:---|
-| TSS-001 | Akses dashboard tanpa login | Sistem mengalihkan guest ke halaman login dan tidak menampilkan data dashboard. |
-| TSS-002 | POST `/api/presensi` tanpa `qr_code` | Respons `422` dengan pesan validasi yang jelas. |
-| TSS-003 | POST `/api/presensi` dengan payload invalid/malicious | Respons `422` atau `404`, tanpa bocoran informasi internal. |
-| TSS-004 | Audit dependensi | `composer audit` tanpa kerentanan, `npm audit` dicatat gagal pada registry mirror. |
+| TCK-001 | Lakukan scan QR 100x dalam 1 menit | Sistem tetap responsif, response time < 3 detik. |
+| TCK-002 | Akses endpoint API via `http://` di environment yang mendukung HTTPS | Request ditolak atau diarahkan ke `https://`. |
+| TCK-003 | Cek password login di database | Password tersimpan dalam bentuk hash (bcrypt), tidak dalam teks polos. |
+| TCK-004 | POST `/api/presensi` tanpa `qr_code` | Respons `422` dengan pesan validasi yang jelas. |
+| TCK-005 | POST `/api/presensi` dengan payload invalid/malicious | Respons `422` atau `404`, tanpa bocoran informasi internal. |
+| TCK-006 | Audit dependensi | `composer audit` tanpa kerentanan; `npm audit` dicatat gagal pada registry mirror. |
+| TCK-007 | Logout/session invalidation | Sesi berakhir, akses dashboard setelah logout dialihkan ke login. |
 
 
 ### D. Set Up the Test Environment
@@ -176,9 +179,10 @@ Kesimpulan performa:
 - Namun pada beban tinggi, respons masih relatif lambat terutama saat mencapai p95.
 - Perbaikan yang direkomendasikan meliputi: penggunaan antrean email asinkron, optimisasi query, dan caching di layer yang relevan.
 
-### E.2. Security Testing
-Security testing dilakukan sebagai bagian dari quality review untuk memastikan bahwa sistem PresensiGo aman dan siap digunakan.
+### E.2. Performance & Security Testing
+Performance & Security testing dilakukan sebagai bagian dari quality review untuk memastikan bahwa sistem PresensiGo aman dan siap digunakan.
 - **Penilaian akses**: memastikan route admin terlindungi, guest tidak bisa mengakses dashboard, dan logout menginvalidasi sesi.
+- **K6**: digunakan sebagai tools utama untuk stress/load test dalam fase performa.
 - **Validasi input**: `qr_code` divalidasi sebagai string yang required, serta API menolak payload yang tidak sesuai.
 - **Proteksi data**: password disimpan hashed oleh Laravel, dan konfigurasi sensitive tidak dikomit ke Git.
 - **Transport security**: sistem dirancang untuk menggunakan HTTPS di lingkungan produksi.
