@@ -12,6 +12,18 @@ class TCLTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::factory()->create([
+            'email' => 'admin@test.com',
+            'password' => bcrypt('password123'),
+        ]);
+    }
+
     #[Test]
     public function test_login_page_bisa_di_akses()
     {
@@ -22,28 +34,18 @@ class TCLTest extends TestCase
     #[Test]
     public function test_TCL001_user_bisa_login_dengan_credentials_yang_benar()
     {
-        $user = User::factory()->create([
-            'email' => 'admin@test.com',
-            'password' => bcrypt('password123'),
-        ]);
-
         $response = $this->post('/login', [
             'email' => 'admin@test.com',
             'password' => 'password123'
         ]);
 
         $response->assertRedirect(route('dashboard.index'));
-        $this->assertAuthenticatedAs($user);
+        $this->assertAuthenticatedAs($this->user);
     }
 
     #[Test]
     public function test_TCL002_user_tidak_bisa_login_dengan_credentials_yang_salah()
     {
-        User::factory()->create([
-            'email' => 'admin@test.com',
-            'password' => bcrypt('password123'),
-        ]);
-
         $response = $this->post('/login', [
             'email' => 'admin@test.com',
             'password' => 'wrongpassword'
@@ -68,12 +70,7 @@ class TCLTest extends TestCase
     #[Test]
     public function test_TCL004_user_bisa_logout()
     {
-        $user = User::factory()->create([
-            'email' => 'admin@test.com',
-            'password' => bcrypt('password123'),
-        ]);
-
-        $this->actingAs($user);
+        $this->actingAs($this->user);
 
         $response = $this->post('/logout');
 
