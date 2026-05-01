@@ -4,10 +4,11 @@ Bagian ini menguji fitur manajemen data master (Siswa & Orang Tua) serta tampila
 
 | Test Case ID | Preconditions | Test Steps | Input Data | Expected Results | Actual Results |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **TCD-001** | Sudah login sebagai admin. | 1. Akses halaman `/dashboard`. | - | Menampilkan statistik jumlah siswa, orang tua, dan presensi hari ini secara akurat. | Passed |
-| **TCD-002** | Berada di halaman daftar siswa. | 1. Klik "Tambah Siswa".<br>2. Isi nama, NIS, dan pilih orang tua.<br>3. Klik Simpan. | Nama: "Dewi", NIS: "123456" | Data tersimpan di database, muncul di tabel, dan QR Code tergenerasi otomatis. | Passed |
-| **TCD-003** | Memiliki data siswa yang sudah ada. | 1. Klik ikon "Edit" pada siswa.<br>2. Ubah nama atau NIS.<br>3. Klik Update. | Nama: "Dewi Pratama" | Data siswa terupdate dengan informasi baru tanpa merubah QR Code asli. | Passed |
-| **TCD-004** | Memiliki data siswa yang sudah ada. | 1. Klik ikon "Hapus" pada siswa.<br>2. Konfirmasi penghapusan. | - | Data siswa terhapus dari database dan tabel daftar siswa. | Passed |
-| **TCD-005** | Berada di halaman daftar orang tua. | 1. Klik "Tambah Orang Tua".<br>2. Isi nama dan email.<br>3. Klik Simpan. | Nama: "Rudi", Email: "rudi@test.com" | Data orang tua tersimpan dan tersedia untuk dipilih saat input siswa. | Passed |
-| **TCD-006** | Memiliki data orang tua. | 1. Klik "Hapus" pada data orang tua yang tidak memiliki siswa aktif. | - | Data orang tua terhapus dengan sukses. | Passed |
-| **TCD-007** | Berada di halaman daftar siswa. | 1. Masukkan kata kunci di kolom pencarian. | Input: "Budi" | Tabel hanya menampilkan siswa yang namanya mengandung kata "Budi". | Passed |
+| **TCD-001** | Sudah login sebagai admin. | 1. Akses halaman `/dashboard`. | - | Menampilkan statistik jumlah siswa, orang tua, dan presensi hari ini. | |
+| **TCD-002** | Berada di menu Data Siswa. | 1. Tambah Siswa.<br>2. Isi form valid.<br>3. Simpan. | Nama: Budi, NIS: 001 | Data muncul di tabel, QR Code tergenerasi otomatis. | |
+| **TCD-003** | Ada data siswa yang dapat diubah. | 1. Buka form edit siswa.<br>2. Ubah data nama/NIS.<br>3. Simpan. | Nama: Budi Santoso, NIS: 002 | Data siswa terupdate di tabel. | |
+| **TCD-004** | Ada data siswa yang dapat dihapus. | 1. Klik tombol hapus pada siswa.<br>2. Konfirmasi penghapusan. | - | Data siswa terhapus dari tabel. | |
+| **TCD-005** | Berada di menu Data Orang Tua. | 1. Tambah orang tua baru.<br>2. Isi nama dan email.<br>3. Simpan. | Nama: Rudi, Email: rudi@test.com | Data orang tua tersimpan dan tersedia untuk dipilih. | |
+| **TCD-006** | Ada data orang tua tanpa siswa aktif. | 1. Klik hapus pada orang tua.<br>2. Konfirmasi penghapusan. | - | Data orang tua terhapus dari daftar. | |
+| **TCD-007** | Ada data orang tua yang dapat diubah. | 1. Buka form edit orang tua.<br>2. Ubah nama/email.<br>3. Simpan. | Nama: Lina Ayu, Email: lina.ayu@test.com | Data orang tua terupdate di daftar. | |
+| **TCD-008** | Berada di menu Data Siswa. | 1. Masukkan kata kunci pencarian. | Input: "Budi" | Tabel hanya menampilkan siswa yang cocok dengan nama pencarian. | |
