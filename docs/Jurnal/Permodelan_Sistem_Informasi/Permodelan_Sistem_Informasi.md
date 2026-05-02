@@ -53,6 +53,7 @@ flowchart TD
     
     subgraph Notification [Sistem Notifikasi]
         Mail --> Parent([Orang Tua Terima Email])
+        Parent --> End
     end
     
     Success --> End([Selesai])
