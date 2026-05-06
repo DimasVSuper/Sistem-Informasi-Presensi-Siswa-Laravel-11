@@ -9,7 +9,7 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
-    public function index(): View
+    public function index()
     {
         $today = Carbon::today()->toDateString();
 

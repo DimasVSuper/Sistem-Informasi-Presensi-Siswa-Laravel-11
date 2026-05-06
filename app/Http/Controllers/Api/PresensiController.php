@@ -17,7 +17,7 @@ class PresensiController extends Controller
      * Proses scan QR Code dan simpan presensi.
      * POST /api/presensi
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         $request->validate([
             'qr_code' => 'required|string',

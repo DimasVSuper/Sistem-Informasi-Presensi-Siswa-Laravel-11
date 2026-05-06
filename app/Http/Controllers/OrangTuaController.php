@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class OrangTuaController extends Controller
 {
-    public function index(): View
+    public function index()
     {
         $orangTua = OrangTua::latest()->paginate(10);
 
