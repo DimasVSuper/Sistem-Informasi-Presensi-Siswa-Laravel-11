@@ -45,11 +45,11 @@ Silakan baca dokumen berikut untuk pemahaman lebih dalam:
 2. Pastikan aplikasi berjalan di http://localhost atau `http://projek3.test`
 3. Jalankan:
    ```bash
-   K6_BASE_URL=http://localhost k6 run tests/K6/presensi.js
+   K6_BASE_URL=http://localhost k6 run tests/K6/load_testing.js
    ```
 4. Jika Anda punya beberapa QR Code test, beri environment variable:
    ```bash
-   K6_BASE_URL=http://localhost K6_QR_CODES=QR-API-TEST,QR-API-TEST2 k6 run tests/K6/presensi.js
+   K6_BASE_URL=http://localhost K6_QR_CODES=QR-API-TEST,QR-API-TEST2 k6 run tests/K6/load_testing.js
    ```
 
 ### Hasil Load Test Saat Ini
@@ -58,4 +58,4 @@ Silakan baca dokumen berikut untuk pemahaman lebih dalam:
 - `p(95)`: `5.34s`
 - Threshold saat ini (`p(95)<3s` dan `avg<1.2s`) belum terpenuhi.
 
-Untuk detail analisis SQA dan rekomendasi optimasi, lihat `docs/Jurnal/Software_Quality_Assurance/Software_Quality_Assurance.md`.
+Untuk detail analisis SQA dan rekomendasi optimasi, lihat [Dokumentasi SQA](docs/Jurnal/Software_Quality_Assurance/Software_Quality_Assurance.md)
