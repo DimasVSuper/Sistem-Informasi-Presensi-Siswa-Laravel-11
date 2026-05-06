@@ -13,10 +13,11 @@ export const options = {
         // Naik ke 50 user virtual dalam 1 menit
         { duration: '1m', target: 50 },
         // Turun ke 0 user virtual dalam 30 detik
-        { duration: '30s', target: 0 },
+        { duration: '30s', target: 0 }
     ],
     thresholds: {
-        // Durasi request HTTP: 95% < 3000ms, rata-rata < 1200ms
+        // Durasi request HTTP: .
+        // 95% < 3000ms, rata-rata < 1200ms
         http_req_duration: ['p(95)<3000', 'avg<1200'],
         // Error rate request HTTP harus < 1%
         http_req_failed: ['rate<0.01'],
