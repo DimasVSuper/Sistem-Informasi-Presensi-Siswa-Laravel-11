@@ -1,9 +1,8 @@
 {
     "agents": [
-        "copilot"
+        "junie"
     ],
-    "skills": [
-        "laravel-best-practices",
-        "tailwindcss-development"
-    ]
+    "mcp": true,
+    "nightwatch_mcp": false,
+    "sail": false
 }
