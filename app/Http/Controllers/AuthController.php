@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function login()
+    public function login(): View
     {
         return view('auth.login');
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         Auth::logout();
         $request->session()->invalidate();
@@ -21,7 +21,7 @@ class AuthController extends Controller
         return redirect()->route('scan');
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'email' => 'required|email',
