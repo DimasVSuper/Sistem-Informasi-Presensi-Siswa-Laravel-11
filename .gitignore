@@ -25,4 +25,5 @@ pnpm-debug.log*
 /.vscode
 /.github
 /.boost.json
-
+/.ai/*
+/.ai
