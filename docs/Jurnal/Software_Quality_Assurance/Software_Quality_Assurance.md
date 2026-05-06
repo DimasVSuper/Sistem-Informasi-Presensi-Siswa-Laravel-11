@@ -168,7 +168,7 @@ Pengujian mencakup:
 - **Validation Assertion**: Memastikan pesan error muncul saat input tidak valid.
 
 ### E.1. Performance Testing dengan K6
-Selain pengujian fungsional, dilakukan load test menggunakan `k6` pada skrip `tests/K6/presensi.js`.
+Selain pengujian fungsional, dilakukan load test menggunakan `k6` pada skrip `tests/K6/load_testing.js`.
 - Target skenario: hingga 50 Virtual Users (VUs) selama 3 menit.
 - Hasil fungsional: semua respons valid (`201`, `409`, `404`, `422`) dan body JSON terverifikasi 100%.
 - Hasil performa: rata-rata latensi `2.62s`, `p(95)=5.34s`.
