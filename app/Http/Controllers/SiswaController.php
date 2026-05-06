@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class SiswaController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): View
     {
         $query = Siswa::with('orangTua')->latest();
 
@@ -30,7 +30,7 @@ class SiswaController extends Controller
         return view('dashboard.siswa.create', compact('orangTua'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request): View
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
@@ -43,14 +43,14 @@ class SiswaController extends Controller
         return redirect()->route('siswa.index')->with('success', 'Data Siswa berhasil ditambahkan. QR Code otomatis di-generate.');
     }
 
-    public function edit(Siswa $siswa)
+    public function edit(Siswa $siswa): View
     {
         $orangTua = OrangTua::all();
 
         return view('dashboard.siswa.edit', compact('siswa', 'orangTua'));
     }
 
-    public function update(Request $request, Siswa $siswa)
+    public function update(Request $request, Siswa $siswa): RedirectResponse
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
@@ -63,7 +63,7 @@ class SiswaController extends Controller
         return redirect()->route('siswa.index')->with('success', 'Data Siswa berhasil diubah.');
     }
 
-    public function destroy(Siswa $siswa)
+    public function destroy(Siswa $siswa): RedirectResponse
     {
         $siswa->delete();
 
