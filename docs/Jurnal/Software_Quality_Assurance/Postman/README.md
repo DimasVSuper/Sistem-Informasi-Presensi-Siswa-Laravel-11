@@ -31,7 +31,7 @@ Impor ke Postman melalui menu `File > Import` dan pilih kedua file tersebut.
 
 ## 4. Import Koleksi Insomnia
 Gunakan file Insomnia berikut untuk mengimpor koleksi yang sama:
-- `postman/insomnia/PresensiGo.insomnia.json`
+- `insomnia/PresensiGo.insomnia.json`
 
 Di Insomnia, pilih `Import/Export > Import Data > From File` lalu pilih file JSON tersebut.
 
@@ -167,7 +167,7 @@ Untuk skenario error, periksa status code yang diharapkan dan pastikan `jsonData
 
 ### 10.2. Langkah Penggunaan Insomnia
 1. Buka Insomnia.
-2. Impor file `postman/insomnia/PresensiGo.insomnia.json`.
+2. Impor file `insomnia/PresensiGo.insomnia.json`.
 3. Pastikan environment `Base Environment` sudah menggunakan `base_url` = `http://127.0.0.1:8000`.
 4. Pilih request `Presensi Sukses`, `Invalid QR Code`, `Duplicate Presensi Hari Ini`, atau `Missing QR Code`.
 5. Klik `Send`.
