@@ -2,30 +2,38 @@
 
 Dokumentasi ini menjelaskan cara menguji endpoint API PresensiGo menggunakan Postman.
 
-## 1. Persiapan
+## 1. Ruang Lingkup Pengujian
+Postman cocok untuk menguji API dari sisi klien.
+- Postman menguji request/response untuk endpoint `POST /api/presensi`.
+- Postman dapat memverifikasi struktur JSON respons yang dihasilkan oleh `ApiResponser`.
+- Postman juga dapat memeriksa status code, pesan error, dan payload data.
+
+Namun, Postman tidak menguji logika internal kode PHP secara langsung. Untuk pengujian unit `ApiResponser` atau logika kontroler yang lebih detil, gunakan PHPUnit.
+
+## 2. Persiapan
 1. Pastikan server Laravel berjalan.
    - Contoh: `php artisan serve --host=127.0.0.1 --port=8000`
 2. Pastikan `APP_URL` di `.env` sama dengan `http://127.0.0.1:8000` atau URL yang digunakan.
 3. Pastikan database sudah terisi siswa dengan `qr_code` valid.
 4. Jika menggunakan mail lokal, atur driver mail di `.env` ke `log` atau `smtp` sesuai kebutuhan.
 
-## 2. Endpoint Utama
+## 3. Endpoint Utama
 - URL: `POST {{base_url}}/api/presensi`
 - Method: `POST`
-- Auth: Tidak diperlukan untuk endpoint ini.
+- Auth: Tidak diperlukan.
 
-## 3. Import Koleksi Postman
+## 4. Import Koleksi Postman
 Gunakan file Postman collection dan environment template berikut:
 - `postman/collections/PresensiGo.postman_collection.json`
 - `postman/environments/PresensiGo.postman_environment.json`
 
 Impor ke Postman melalui menu `File > Import` dan pilih kedua file tersebut.
 
-## 4. Environment Postman
+## 5. Environment Postman
 Buat environment Postman berikut jika belum menggunakan file template:
 - `base_url` = `http://127.0.0.1:8000`
 
-## 4. Request Body
+## 6. Format Request
 Gunakan `raw` JSON pada tab `Body`:
 
 ```json
@@ -42,18 +50,31 @@ Contoh:
 }
 ```
 
-## 5. Validasi Respons
-### 5.1. Kasus Sukses
+## 7. Format Respons Standar
+Semua endpoint API PresensiGo menggunakan `ApiResponser` dengan struktur berikut:
+
+```json
+{
+  "success": true | false,
+  "message": "...",
+  "data": object | array | null
+}
+```
+
+Postman dapat memeriksa bahwa respons selalu konsisten pada struktur ini.
+
+## 8. Skenario Pengujian
+### 8.1. Kasus Sukses
 - Status: `201 Created`
 - Response body:
 
 ```json
 {
   "success": true,
-  "message": "Presensi berhasil dicatat",
+  "message": "Presensi berhasil dicatat. Notifikasi telah dikirim ke orang tua.",
   "data": {
-    "id": 1,
-    "siswa_id": 1,
+    "nama": "Nama Siswa",
+    "nis": "12345",
     "tanggal": "2026-05-05",
     "waktu": "07:45:21",
     "status": "Hadir"
@@ -61,31 +82,34 @@ Contoh:
 }
 ```
 
-### 5.2. Kasus QR Code tidak valid
+### 8.2. Kasus QR Code tidak valid
 - Status: `404`
 - Response body:
 
 ```json
 {
   "success": false,
-  "message": "Siswa tidak ditemukan.",
+  "message": "Siswa tidak ditemukan. QR Code tidak valid.",
   "data": null
 }
 ```
 
-### 5.3. Kasus duplikat presensi hari ini
+### 8.3. Kasus duplikat presensi hari ini
 - Status: `409`
 - Response body:
 
 ```json
 {
   "success": false,
-  "message": "Siswa sudah melakukan presensi hari ini.",
-  "data": null
+  "message": "Siswa <nama> sudah melakukan presensi hari ini.",
+  "data": {
+    "nama": "...",
+    "nis": "..."
+  }
 }
 ```
 
-### 5.4. Kasus validasi gagal
+### 8.4. Kasus validasi gagal
 - Status: `422`
 - Response body contoh:
 
@@ -101,7 +125,7 @@ Contoh:
 }
 ```
 
-## 6. Skrip Test Postman
+## 9. Skrip Test Postman
 Berikut contoh skrip test pada tab `Tests` di Postman:
 
 ```js
@@ -109,29 +133,33 @@ pm.test('Status code is 201', function () {
   pm.response.to.have.status(201);
 });
 
-pm.test('Response has success true', function () {
+pm.test('Response has correct JSON structure', function () {
   const jsonData = pm.response.json();
-  pm.expect(jsonData.success).to.eql(true);
+  pm.expect(jsonData).to.have.property('success');
+  pm.expect(jsonData).to.have.property('message');
+  pm.expect(jsonData).to.have.property('data');
 });
 
-pm.test('Response contains message', function () {
+pm.test('Response message is a string', function () {
   const jsonData = pm.response.json();
   pm.expect(jsonData.message).to.be.a('string');
 });
 ```
 
-Untuk skenario error, gunakan skrip test yang sama tetapi periksa status yang diharapkan dan `success` false.
+Untuk skenario error, periksa status code yang diharapkan dan pastikan `jsonData.success` bernilai `false`.
 
-## 7. Langkah Pengujian
+## 10. Langkah Pengujian
 1. Buka Postman.
 2. Buat request baru dengan method `POST`.
 3. Masukkan URL: `{{base_url}}/api/presensi`.
 4. Atur tab `Body` menjadi `raw` dan pilih `JSON`.
 5. Tempel payload JSON.
 6. Klik `Send`.
-7. Periksa status code dan body respons.
+7. Periksa status code, body respons, dan hasil tests.
 
-## 8. Catatan Tambahan
-- Email notifikasi dikirim ke `OrangTua.email`; bila mail driver belum dikonfigurasi, periksa log Laravel.
+## 11. Catatan Tambahan
+- Email notifikasi dikirim ke `OrangTua.email`; bila mail driver belum dikonfigurasi, periksa log Laravel atau gunakan `MAIL_MAILER=log`.
 - Pastikan siswa yang diuji sudah memiliki `qr_code` valid di tabel `siswa`.
-- Endpoint ini tidak memerlukan autentikasi, sehingga mudah diuji secara cepat.
+- Endpoint ini tidak memerlukan autentikasi.
+- Postman cukup untuk menguji flow scan presensi dan output API, tapi bukan pengganti PHPUnit untuk unit testing trait internal.
+- Jika ingin menguji endpoint lain, tambahkan request baru ke koleksi Postman.
