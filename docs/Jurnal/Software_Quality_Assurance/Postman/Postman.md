@@ -14,8 +14,15 @@ Dokumentasi ini menjelaskan cara menguji endpoint API PresensiGo menggunakan Pos
 - Method: `POST`
 - Auth: Tidak diperlukan untuk endpoint ini.
 
-## 3. Environment Postman
-Buat environment Postman berikut:
+## 3. Import Koleksi Postman
+Gunakan file Postman collection dan environment template berikut:
+- `postman/collections/PresensiGo.postman_collection.json`
+- `postman/environments/PresensiGo.postman_environment.json`
+
+Impor ke Postman melalui menu `File > Import` dan pilih kedua file tersebut.
+
+## 4. Environment Postman
+Buat environment Postman berikut jika belum menggunakan file template:
 - `base_url` = `http://127.0.0.1:8000`
 
 ## 4. Request Body
