@@ -6,9 +6,9 @@ Selamat datang di pusat dokumentasi teknis dan manajemen proyek PresensiGo. Doku
 
 1.  [**Arsitektur Aplikasi**](ARCHITECTURE.md)
     *Penyelaman mendalam tentang Unified Controller logic, Model Events, dan alur data.*
-2.  [**Detail Logic Backend**](backend/LOGIC.md)
+2.  [**Detail Logic Backend**](backend/README.md)
     *Penjelasan mengenai Controller, Model lifecycle, dan integrasi API.*
-3.  [**Detail Frontend & PWA**](frontend/UI_UX.md)
+3.  [**Detail Frontend & PWA**](frontend/README.md)
     *Detail tentang UI design, fitur offline, dan integrasi library scanner.*
 4.  [**Perancangan Sistem Informasi**](Jurnal/Perancangan_Sistem_Informasi/Perancangan_SI.md)
     *UML, ERD, DFD, rancangan database, dan arsitektur sistem.*
