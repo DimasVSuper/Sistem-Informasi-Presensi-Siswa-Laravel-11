@@ -1,6 +1,6 @@
 {
     "agents": [
-        "junie"
+        "copilot"
     ],
     "mcp": true,
     "nightwatch_mcp": false,
