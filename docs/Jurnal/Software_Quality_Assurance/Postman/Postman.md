@@ -29,6 +29,12 @@ Gunakan file Postman collection dan environment template berikut:
 
 Impor ke Postman melalui menu `File > Import` dan pilih kedua file tersebut.
 
+## 4. Import Koleksi Insomnia
+Gunakan file Insomnia berikut untuk mengimpor koleksi yang sama:
+- `postman/insomnia/PresensiGo.insomnia.json`
+
+Di Insomnia, pilih `Import/Export > Import Data > From File` lalu pilih file JSON tersebut.
+
 ## 5. Environment Postman
 Buat environment Postman berikut jika belum menggunakan file template:
 - `base_url` = `http://127.0.0.1:8000`
@@ -149,13 +155,25 @@ pm.test('Response message is a string', function () {
 Untuk skenario error, periksa status code yang diharapkan dan pastikan `jsonData.success` bernilai `false`.
 
 ## 10. Langkah Pengujian
+### 10.1. Langkah Penggunaan Postman
 1. Buka Postman.
-2. Buat request baru dengan method `POST`.
-3. Masukkan URL: `{{base_url}}/api/presensi`.
-4. Atur tab `Body` menjadi `raw` dan pilih `JSON`.
-5. Tempel payload JSON.
-6. Klik `Send`.
-7. Periksa status code, body respons, dan hasil tests.
+2. Buat request baru atau gunakan request dari koleksi `PresensiGo API Tests`.
+3. Pastikan environment `PresensiGo Local` aktif.
+4. Masukkan URL: `{{base_url}}/api/presensi`.
+5. Atur tab `Body` menjadi `raw` dan pilih `JSON`.
+6. Tempel payload JSON.
+7. Klik `Send`.
+8. Periksa status code, body respons, dan hasil tests.
+
+### 10.2. Langkah Penggunaan Insomnia
+1. Buka Insomnia.
+2. Impor file `postman/insomnia/PresensiGo.insomnia.json`.
+3. Pastikan environment `Base Environment` sudah menggunakan `base_url` = `http://127.0.0.1:8000`.
+4. Pilih request `Presensi Sukses`, `Invalid QR Code`, `Duplicate Presensi Hari Ini`, atau `Missing QR Code`.
+5. Klik `Send`.
+6. Periksa response status dan payload JSON.
+
+Untuk panduan lengkap Insomnia, lihat `docs/Jurnal/Software_Quality_Assurance/Insomnia/Insomnia.md`.
 
 ## 11. Catatan Tambahan
 - Email notifikasi dikirim ke `OrangTua.email`; bila mail driver belum dikonfigurasi, periksa log Laravel atau gunakan `MAIL_MAILER=log`.
