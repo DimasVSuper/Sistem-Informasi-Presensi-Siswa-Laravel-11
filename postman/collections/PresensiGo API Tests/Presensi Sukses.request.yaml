@@ -1,0 +1,30 @@
+$kind: http-request
+url: "{{base_url}}/api/presensi"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "qr_code": "QR-API-TEST"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 201', function () {
+          pm.response.to.have.status(201);
+      });
+      const jsonData = pm.response.json();
+      pm.test('Success boolean true', function () {
+          pm.expect(jsonData.success).to.eql(true);
+      });
+      pm.test('Response returns siswa data', function () {
+          pm.expect(jsonData.data).to.have.property('nama');
+          pm.expect(jsonData.data).to.have.property('nis');
+          pm.expect(jsonData.data).to.have.property('tanggal');
+          pm.expect(jsonData.data).to.have.property('waktu');
+          pm.expect(jsonData.data).to.have.property('status');
+      });
+order: 1000

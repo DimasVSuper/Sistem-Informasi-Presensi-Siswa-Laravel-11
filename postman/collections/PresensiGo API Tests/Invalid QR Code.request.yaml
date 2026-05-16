@@ -1,0 +1,26 @@
+$kind: http-request
+url: "{{base_url}}/api/presensi"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+      "qr_code": "QR-UNKNOWN"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 404', function () {
+          pm.response.to.have.status(404);
+      });
+      const jsonData = pm.response.json();
+      pm.test('Success boolean false', function () {
+          pm.expect(jsonData.success).to.eql(false);
+      });
+      pm.test('Message indicates invalid QR Code', function () {
+          pm.expect(jsonData.message).to.include('QR Code tidak valid');
+      });
+order: 2000

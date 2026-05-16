@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{base_url}}/api/presensi"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: text
+  content: "{}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Status code is 422', function () {
+          pm.response.to.have.status(422);
+      });
+      const jsonData = pm.response.json();
+      pm.test('Success boolean false', function () {
+          pm.expect(jsonData.success).to.eql(false);
+      });
+      pm.test('qr_code validation error exists', function () {
+          pm.expect(jsonData.data).to.have.property('qr_code');
+      });
+order: 4000
