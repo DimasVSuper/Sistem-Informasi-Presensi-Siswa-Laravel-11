@@ -9,6 +9,7 @@ use App\Models\Siswa;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class PresensiController extends Controller
@@ -51,11 +52,26 @@ class PresensiController extends Controller
                 'status' => 'Hadir',
             ]);
 
+            $emailMessage = 'Notifikasi telah dikirim ke orang tua.';
+
             if ($siswa->orangTua && $siswa->orangTua->email) {
-                Mail::to($siswa->orangTua->email)->send(new AttendanceNotification($siswa, $presensi));
+                try {
+                    Mail::to($siswa->orangTua->email)->send(new AttendanceNotification($siswa, $presensi));
+                } catch (\Throwable $exception) {
+                    Log::error('Gagal mengirim email presensi', [
+                        'siswa_id' => $siswa->id,
+                        'orang_tua_id' => $siswa->orangTua->id,
+                        'email' => $siswa->orangTua->email,
+                        'exception' => $exception->getMessage(),
+                    ]);
+
+                    $emailMessage = 'Ada yang salah dengan Sistem Email kami.';
+                }
+            } else {
+                $emailMessage = 'Notifikasi tidak dikirim karena email orang tua tidak tersedia.';
             }
 
-            return $this->successResponse('Presensi berhasil dicatat. Notifikasi telah dikirim ke orang tua.', [
+            return $this->successResponse('Presensi berhasil dicatat. '.$emailMessage, [
                 'nama' => $siswa->nama,
                 'nis' => $siswa->nis,
                 'tanggal' => $presensi->tanggal,
