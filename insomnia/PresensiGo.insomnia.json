@@ -118,6 +118,29 @@
           "value": "application/json"
         }
       ]
+    },
+    {
+      "_id": "req_qr_no_mail",
+      "_type": "request",
+      "parentId": "fld_presensigo_requests",
+      "name": "QR-NO-MAIL",
+      "description": "Request untuk siswa dengan orang tua tanpa email.",
+      "method": "POST",
+      "url": "{{ base_url }}/api/presensi",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"qr_code\": \"QR-NO-MAIL\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Accept",
+          "value": "application/json"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ]
     }
   ]
 }
