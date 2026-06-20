@@ -39,6 +39,7 @@ Silakan baca dokumen berikut untuk pemahaman lebih dalam:
 5. Jalankan `php artisan key:generate`
 6. Jalankan migrasi & seeder: `php artisan migrate --seed`
 7. Jalankan server: `php artisan serve` & `npm run dev`
+8. Jalankan antrean email (Penting!): Buka terminal baru lalu jalankan `php artisan queue:work`
 
 ## ⚡ Performance Testing dengan K6
 1. Install K6 di mesin Anda: https://k6.io/docs/getting-started/installation/
