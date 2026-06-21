@@ -11,6 +11,7 @@ PresensiGo menggunakan pola **Unified Controller Logic** (KISS Pattern) untuk me
 ## 2. Controller Logic (`app/Http/Controllers`)
 Logika bisnis dikonsolidasikan dalam Controller untuk efisiensi:
 - **`PresensiController`**: Menangani endpoint API `/api/presensi`. Melakukan validasi QR, pengecekan duplikasi harian, pencatatan database dalam transaksi, dan pengiriman email notifikasi. *(Catatan: Pengiriman email menggunakan sistem antrean database, pastikan menjalankan `php artisan queue:work` agar email dapat terkirim).*
+- **`PresensiRecapController`**: Menangani rekapitulasi data presensi siswa, menampilkan ringkasan dan laporan kehadiran di halaman dashboard.
 - **`SiswaController`**: Manajemen CRUD data siswa.
 - **`OrangTuaController`**: Manajemen CRUD data orang tua.
 
