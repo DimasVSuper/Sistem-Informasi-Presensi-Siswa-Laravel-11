@@ -38,6 +38,9 @@
                 <a href="{{ route('dashboard.index') }}" class="flex items-center px-3 py-2.5 rounded-xl hover:bg-indigo-800 transition-colors {{ request()->routeIs('dashboard.*') ? 'bg-indigo-800 shadow-inner' : 'text-indigo-100' }}">
                     <i data-feather="grid" class="w-4 h-4 mr-3 {{ request()->routeIs('dashboard.*') ? 'text-indigo-300' : 'opacity-75' }}"></i> Dashboard
                 </a>
+                <a href="{{ route('rekap-presensi.index') }}" class="flex items-center px-3 py-2.5 rounded-xl hover:bg-indigo-800 transition-colors {{ request()->routeIs('rekap-presensi.*') ? 'bg-indigo-800 shadow-inner' : 'text-indigo-100' }}">
+                    <i data-feather="calendar" class="w-4 h-4 mr-3 {{ request()->routeIs('rekap-presensi.*') ? 'text-indigo-300' : 'opacity-75' }}"></i> Rekap Presensi
+                </a>
                 
                 <p class="px-3 text-xs font-semibold text-indigo-400 uppercase tracking-wider mb-2 mt-8">Master Data</p>
                 <a href="{{ route('siswa.index') }}" class="flex items-center px-3 py-2.5 rounded-xl hover:bg-indigo-800 transition-colors {{ request()->routeIs('siswa.*') ? 'bg-indigo-800 shadow-inner' : 'text-indigo-100' }}">
