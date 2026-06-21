@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OrangTuaController;
+use App\Http\Controllers\PresensiRecapController;
 use App\Http\Controllers\SiswaController;
 use App\Models\Siswa;
 use Illuminate\Support\Facades\Route;
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
 
     // Dashboard & Master Data Routes (Protected)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/rekap-presensi', [PresensiRecapController::class, 'index'])->name('rekap-presensi.index');
     Route::resource('orang-tua', OrangTuaController::class);
     Route::resource('siswa', SiswaController::class);
 });
