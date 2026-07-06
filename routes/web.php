@@ -22,6 +22,12 @@ Route::get('/generate', function () {
     return view('QR.generate', compact('siswa'));
 })->name('generate');
 
+Route::get('/generate-pulang', function () {
+    $siswa = Siswa::all();
+
+    return view('QR.generate_pulang', compact('siswa'));
+})->name('generate.pulang');
+
 // Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -38,6 +44,7 @@ Route::middleware('auth')->group(function () {
     // Dashboard & Master Data Routes (Protected)
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/rekap-presensi', [PresensiRecapController::class, 'index'])->name('rekap-presensi.index');
+    Route::get('/rekap-presensi/print', [PresensiRecapController::class, 'print'])->name('rekap-presensi.print');
     Route::resource('orang-tua', OrangTuaController::class);
     Route::resource('siswa', SiswaController::class);
 });

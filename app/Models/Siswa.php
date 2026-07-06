@@ -14,7 +14,7 @@ class Siswa extends Model
 
     protected $table = 'siswa';
 
-    protected $fillable = ['nama', 'nis', 'qr_code', 'orang_tua_id'];
+    protected $fillable = ['nama', 'nis', 'qr_code', 'orang_tua_id', 'user_id'];
 
     protected static function booted(): void
     {
@@ -23,10 +23,15 @@ class Siswa extends Model
                 do {
                     $qrCode = 'QR-'.Str::upper(Str::random(8));
                 } while (static::where('qr_code', $qrCode)->exists());
-                
+
                 $siswa->qr_code = $qrCode;
             }
         });
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function orangTua(): BelongsTo
@@ -47,4 +52,3 @@ class Siswa extends Model
         return $query->where('qr_code', $qrCode);
     }
 }
-

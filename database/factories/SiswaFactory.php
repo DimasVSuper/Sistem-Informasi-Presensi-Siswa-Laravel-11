@@ -16,8 +16,9 @@ class SiswaFactory extends Factory
         return [
             'nama' => $this->faker->name(),
             'nis' => $this->faker->unique()->numerify('######'),
-            'qr_code' => 'QR-' . Str::upper(Str::random(8)),
+            'qr_code' => 'QR-'.Str::upper(Str::random(8)),
             'orang_tua_id' => OrangTua::factory(),
+            'user_id' => null,
         ];
     }
 }

@@ -60,4 +60,43 @@ class PresensiRecapTest extends TestCase
 
         $response->assertRedirect(route('login'));
     }
+
+    public function test_authenticated_user_can_view_print_recap(): void
+    {
+        $user = User::factory()->create();
+        $budi = Siswa::factory()->create([
+            'nama' => 'Budi Santoso',
+            'nis' => '100001',
+        ]);
+        $dewi = Siswa::factory()->create([
+            'nama' => 'Dewi Lestari',
+            'nis' => '100002',
+        ]);
+
+        Presensi::create([
+            'siswa_id' => $budi->id,
+            'tanggal' => '2026-06-03',
+            'waktu' => '07:10:00',
+            'status' => 'Hadir',
+        ]);
+
+        $response = $this->actingAs($user)->get(route('rekap-presensi.print', [
+            'month' => 6,
+            'year' => 2026,
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertSee('Laporan Rekapitulasi Presensi Siswa');
+        $response->assertSee('Budi Santoso');
+        $response->assertSee('100001');
+        $response->assertSee('Dewi Lestari');
+        $response->assertSee('100002');
+    }
+
+    public function test_guest_is_redirected_from_print_recap(): void
+    {
+        $response = $this->get(route('rekap-presensi.print'));
+
+        $response->assertRedirect(route('login'));
+    }
 }

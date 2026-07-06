@@ -31,9 +31,9 @@
             <i data-feather="filter" class="w-4 h-4 mr-2"></i> Tampilkan
         </button>
 
-        <button type="button" onclick="window.print()" class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 transition-colors">
+        <a href="{{ route('rekap-presensi.print', ['month' => $selectedMonth, 'year' => $selectedYear]) }}" target="_blank" class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 transition-colors">
             <i data-feather="printer" class="w-4 h-4 mr-2"></i> Cetak
-        </button>
+        </a>
     </form>
 </div>
 
@@ -130,7 +130,8 @@
                 <thead class="text-xs text-gray-500 uppercase bg-gray-50 border-b border-gray-100">
                     <tr>
                         <th scope="col" class="px-6 py-4 font-medium tracking-wider">Tanggal</th>
-                        <th scope="col" class="px-6 py-4 font-medium tracking-wider">Waktu</th>
+                        <th scope="col" class="px-6 py-4 font-medium tracking-wider">Waktu Masuk</th>
+                        <th scope="col" class="px-6 py-4 font-medium tracking-wider">Waktu Pulang</th>
                         <th scope="col" class="px-6 py-4 font-medium tracking-wider">Nama Siswa</th>
                         <th scope="col" class="px-6 py-4 font-medium tracking-wider">NIS</th>
                         <th scope="col" class="px-6 py-4 font-medium tracking-wider">Status</th>
@@ -143,6 +144,7 @@
                                 {{ \Carbon\Carbon::parse($presensi->tanggal)->translatedFormat('d F Y') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $presensi->waktu }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $presensi->waktu_keluar ?? '-' }}</td>
                             <td class="px-6 py-4 whitespace-nowrap font-medium text-gray-800">{{ $presensi->siswa->nama }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-gray-500">{{ $presensi->siswa->nis }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
