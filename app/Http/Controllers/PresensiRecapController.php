@@ -59,4 +59,46 @@ class PresensiRecapController extends Controller
             'years'
         ));
     }
+
+    public function print(Request $request): View
+    {
+        $validated = $request->validate([
+            'month' => ['nullable', 'integer', 'between:1,12'],
+            'year' => ['nullable', 'integer', 'between:2000,2100'],
+        ]);
+
+        $selectedMonth = (int) ($validated['month'] ?? now()->month);
+        $selectedYear = (int) ($validated['year'] ?? now()->year);
+        $selectedDate = Carbon::create($selectedYear, $selectedMonth, 1);
+        $startOfMonth = $selectedDate->copy()->startOfMonth()->toDateString();
+        $endOfMonth = $selectedDate->copy()->endOfMonth()->toDateString();
+
+        $totalSiswa = Siswa::count();
+
+        $rekapSiswa = Siswa::with('orangTua')
+            ->withCount([
+                'presensi as total_hadir' => fn ($query) => $query->whereBetween('tanggal', [$startOfMonth, $endOfMonth]),
+            ])
+            ->orderBy('nama')
+            ->get();
+
+        // Calculate dynamic active school days in this period (days where at least one attendance occurred)
+        $activeDays = Presensi::whereBetween('tanggal', [$startOfMonth, $endOfMonth])
+            ->distinct('tanggal')
+            ->count('tanggal');
+
+        if ($activeDays === 0) {
+            // Default/fallback to 20 days if no attendance is logged yet
+            $activeDays = 20;
+        }
+
+        return view('dashboard.rekap-presensi.print', compact(
+            'selectedMonth',
+            'selectedYear',
+            'selectedDate',
+            'totalSiswa',
+            'rekapSiswa',
+            'activeDays'
+        ));
+    }
 }

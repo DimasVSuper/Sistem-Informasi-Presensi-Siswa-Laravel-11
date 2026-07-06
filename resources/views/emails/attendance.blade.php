@@ -145,14 +145,14 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="icon">✅</div>
-            <h1>Notifikasi Presensi Siswa</h1>
-            <p>Informasi kehadiran siswa telah dicatat dan dikirimkan secara otomatis ke orang tua.</p>
+            <div class="icon">{{ $type === 'pulang' ? '👋' : '✅' }}</div>
+            <h1>{{ $type === 'pulang' ? 'Notifikasi Presensi Pulang' : 'Notifikasi Presensi Siswa' }}</h1>
+            <p>{{ $type === 'pulang' ? 'Informasi kepulangan siswa telah dicatat dan dikirimkan secara otomatis ke orang tua.' : 'Informasi kehadiran siswa telah dicatat dan dikirimkan secara otomatis ke orang tua.' }}</p>
         </div>
 
         <div class="body">
             <p class="greeting">Yth. Bapak/Ibu <strong>{{ $siswa->orangTua->nama }}</strong>,</p>
-            <p class="intro">Putra/putri Anda telah melakukan presensi hari ini. Berikut detail kehadirannya:</p>
+            <p class="intro">Putra/putri Anda telah melakukan presensi {{ $type === 'pulang' ? 'pulang' : 'masuk' }} hari ini. Berikut detail kehadirannya:</p>
 
             <div class="card">
                 <div class="card-row">
@@ -168,12 +168,12 @@
                     <span class="value">{{ \Carbon\Carbon::parse($presensi->tanggal)->translatedFormat('l, d F Y') }}</span>
                 </div>
                 <div class="card-row">
-                    <span class="label">Waktu Hadir</span>
-                    <span class="value">{{ $presensi->waktu }}</span>
+                    <span class="label">{{ $type === 'pulang' ? 'Waktu Pulang' : 'Waktu Hadir' }}</span>
+                    <span class="value">{{ $type === 'pulang' ? $presensi->waktu_keluar : $presensi->waktu }}</span>
                 </div>
                 <div class="card-row">
                     <span class="label">Status</span>
-                    <span class="value"><span class="status-badge">{{ $presensi->status }}</span></span>
+                    <span class="value"><span class="status-badge">{{ $type === 'pulang' ? 'Pulang' : $presensi->status }}</span></span>
                 </div>
             </div>
 

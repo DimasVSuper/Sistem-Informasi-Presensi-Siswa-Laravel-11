@@ -20,13 +20,16 @@ class AttendanceNotification extends Mailable implements ShouldQueue
 
     public Presensi $presensi;
 
+    public string $type;
+
     /**
      * Create a new message instance.
      */
-    public function __construct(Siswa $siswa, Presensi $presensi)
+    public function __construct(Siswa $siswa, Presensi $presensi, string $type = 'masuk')
     {
         $this->siswa = $siswa;
         $this->presensi = $presensi;
+        $this->type = $type;
     }
 
     /**
@@ -34,8 +37,12 @@ class AttendanceNotification extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
+        $subject = $this->type === 'pulang'
+            ? 'Notifikasi Presensi Pulang - '.$this->siswa->nama
+            : 'Notifikasi Presensi - '.$this->siswa->nama;
+
         return new Envelope(
-            subject: 'Notifikasi Presensi - '.$this->siswa->nama,
+            subject: $subject,
         );
     }
 

@@ -13,6 +13,9 @@
         <a href="{{ route('generate') }}" target="_blank" class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-sm flex items-center">
             <i data-feather="printer" class="w-4 h-4 mr-2"></i> Cetak Semua QR
         </a>
+        <a href="{{ route('generate.pulang') }}" target="_blank" class="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-sm flex items-center">
+            <i data-feather="printer" class="w-4 h-4 mr-2"></i> Cetak QR Pulang
+        </a>
         <a href="{{ route('siswa.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-medium text-sm transition-colors shadow-sm flex items-center">
             <i data-feather="plus" class="w-4 h-4 mr-2"></i> Tambah Baru
         </a>

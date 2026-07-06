@@ -9,7 +9,7 @@ class Presensi extends Model
 {
     protected $table = 'presensi';
 
-    protected $fillable = ['siswa_id', 'tanggal', 'waktu', 'status'];
+    protected $fillable = ['siswa_id', 'tanggal', 'waktu', 'status', 'waktu_keluar'];
 
     public function siswa(): BelongsTo
     {
