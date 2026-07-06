@@ -41,23 +41,3 @@ Silakan baca dokumen berikut untuk pemahaman lebih dalam:
 6. Jalankan migrasi & seeder: `php artisan migrate --seed`
 7. Jalankan server: `php artisan serve` & `npm run dev`
 8. Jalankan antrean email (Penting!): Buka terminal baru lalu jalankan `php artisan queue:work`
-
-## ⚡ Performance Testing dengan K6
-1. Install K6 di mesin Anda: https://k6.io/docs/getting-started/installation/
-2. Pastikan aplikasi berjalan di http://localhost atau `http://projek3.test`
-3. Jalankan:
-   ```bash
-   K6_BASE_URL=http://localhost k6 run tests/K6/load_testing.js
-   ```
-4. Jika Anda punya beberapa QR Code test, beri environment variable:
-   ```bash
-   K6_BASE_URL=http://localhost K6_QR_CODES=QR-API-TEST,QR-API-TEST2 k6 run tests/K6/load_testing.js
-   ```
-
-### Hasil Load Test Saat Ini
-- Tes valid secara fungsional: semua respons `201`, `409`, `404`, atau `422` terverifikasi.
-- Latensi rata-rata: `2.62s`
-- `p(95)`: `5.34s`
-- Threshold saat ini (`p(95)<3s` dan `avg<1.2s`) belum terpenuhi.
-
-Untuk detail analisis SQA dan rekomendasi optimasi, lihat [Dokumentasi SQA](docs/Jurnal/Software_Quality_Assurance/Software_Quality_Assurance.md)
